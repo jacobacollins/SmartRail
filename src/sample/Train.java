@@ -6,6 +6,7 @@ import javafx.scene.shape.Rectangle;
  */
 public class Train
 {
+
   private Rectangle train = new Rectangle();
   private int position;
   private Color trainColor;

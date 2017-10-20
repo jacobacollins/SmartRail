@@ -3,7 +3,9 @@
  */
 public interface Tracks
 {
+  public char getStartPoint();
   public char getDest();
 
-  public void checkNeighbor();
+  public void checkRight();
+  public void checkLeft();
 }
