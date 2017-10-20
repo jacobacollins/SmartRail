@@ -5,5 +5,20 @@ import java.util.List;
  */
 public class Path
 {
-  private List<>
+  private List<Tracks> path = new LinkedList<>();
+
+  public void addToPath(Tracks track)
+  {
+    path.add(track);
+  }
+
+  public void removePath(Tracks track)
+  {
+    path.remove(track);
+  }
+
+  public List<Tracks> getPath()
+  {
+    return path;
+  }
 }
