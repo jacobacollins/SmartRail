@@ -49,18 +49,23 @@ public class Main extends Application {
         canvasPane.setAlignment(Pos.CENTER);
         root.setCenter(canvasPane);
         BorderPane.setMargin(canvasPane, new Insets(25,25,25,25));
+//      GraphicsContext gc = middle.getGraphicsContext2D();
 
-      GraphicsContext gc = middle.getGraphicsContext2D();
+        TrackObject[][] layout = new TrackObject[1][11];
+//        layout = [3][10]
+      TrackLayout tl = new TrackLayout(layout);
 
-      Train t2 = new Train( "blah", middle);
+
+      Train t2 = new Train( "blah", middle, layout[0][0]);
       Thread t1 = new Thread( t2);
-        gc.fillRect(t2.getX(),t2.getY(),10,10);
+
       t1.start();
 
 
         primaryStage.setScene(new Scene(root, 1100, 400));
         primaryStage.setResizable(false);
         primaryStage.show();
+
     }
 
 

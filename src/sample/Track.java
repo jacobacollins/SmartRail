@@ -9,6 +9,7 @@ public class Track extends TrackObject {
 public Track(boolean blocked){
 
     super(TrackID, blocked);
+    this.blocked = blocked;
 
 
 
@@ -16,26 +17,6 @@ public Track(boolean blocked){
 
 
 
-
-    public void blockNeighbors(Object track, ArrayList trackLayout, int position) {
-
-    }
-
-    public String getTrackID(){
-    return TrackID;
-    }
-
-//    public void setNeighbors(Track[][] tracklayout, int row, int col) {
-//        if(tracklayout[row][col] != null ){
-//            rightNeighbor = neighbors.get(position + 1);
-//        }
-//
-//        if(neighbors.get(position - 1) != null){
-//            leftNeighbor = neighbors.get(position -1);
-//        }
-//        System.out.println("null in get Neighbors");
-//
-//    }
 
 
 

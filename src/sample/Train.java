@@ -1,9 +1,6 @@
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-
-import java.util.Random;
 
 public class Train extends TrackObject implements Runnable {
     private Rectangle train = new Rectangle();
@@ -12,21 +9,21 @@ public class Train extends TrackObject implements Runnable {
     private Canvas canvas;
     private GraphicsContext gc;
     private boolean flag = false;
-    private Track currentTrack;
+    private TrackObject currentTrack;
+    private String destination;
 
-
-    public Train(String TrainID, Canvas canvas) {
+    public Train(String TrainID, Canvas canvas, TrackObject currentTrack) {
         super(TrainID, false);
         train.setX(25);
         train.setY(25);
         this.canvas = canvas;
-//        this.currentTrack = currentTrack;
+        this.currentTrack = currentTrack;
         gc = canvas.getGraphicsContext2D();
     }
 
 
     private void changeCoordinates() {
-        x += 25;
+        x += 40;
     }
 
     public int getX() {
@@ -40,17 +37,23 @@ public class Train extends TrackObject implements Runnable {
     public void run() {
         while (!flag) {
             try {
-                Thread.sleep(500);
+                Thread.sleep(750);
+                gc.fillRect(getX(), getY(), 30, 20);
+                System.out.print(currentTrack.getID() + " ");
 
-                if (getX() < 500) {
-                    gc.clearRect(getX(), getY(), 10, 10);
+                if(currentTrack.getRightNeighbor() != null){
+                    gc.clearRect(getX(), getY(), 30, 20);
                     changeCoordinates();
-                    gc.fillRect(getX(), getY(), 10, 10);
+                    gc.fillRect(getX(), getY(), 30, 20);
+
+
+                    currentTrack = currentTrack.getRightNeighbor();
                 } else {
                     flag = true;
+               System.out.println("Train thread is dying");
                 }
 
-                System.out.println(getX() + " " + getY());
+
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
