@@ -1,7 +1,8 @@
 
 public class TrackLayout {
 
-private TrackObject[][] lanes;
+    private TrackObject[][] lanes;
+
     public TrackLayout(TrackObject[][] lanes) {
 
         this.lanes = lanes;
@@ -14,7 +15,7 @@ private TrackObject[][] lanes;
 
     private void printLayout() {
         for (TrackObject[] t : lanes) {
-            for (TrackObject r: t) {
+            for (TrackObject r : t) {
                 System.out.print(" " + r.getID() + " ");
 
             }
@@ -26,19 +27,18 @@ private TrackObject[][] lanes;
     public void multipleLanes(TrackObject[][] lanes) {
         for (int i = 0; i < lanes.length; i++) {
             for (int j = 0; j < lanes[i].length; j++) {
-                Track tr = new Track(false, "track");
+                Track tr = new Track(false);
                 lanes[i][j] = tr;
 
 
             }
 
 
-
             for (int k = 0; k < lanes.length; k++) {
 
                 for (int l = 0; l < lanes[k].length; l++) {
-                    lanes[k][0] = new Track(false, String.valueOf((char) (k + 65)));
-                    lanes[k][lanes[k].length - 1] = new Track(false, String.valueOf((char) (k + 85)));
+                    lanes[k][0] = new Station(false, String.valueOf((char) (k + 65)));
+                    lanes[k][lanes[k].length - 1] = new Station(false, String.valueOf((char) (k + 85)));
 
                 }
 
@@ -49,12 +49,16 @@ private TrackObject[][] lanes;
             lanes[1][7] = new Switches(false, "drs", false);
             lanes[2][4] = new Switches(false, "uls", false);
 
+            lanes[0][2] = new Light(false);
+            lanes[1][4] = new Light(false);
+            lanes[2][6] = new Light(false);
 
         }
     }
-    private void setNeighbors(TrackObject[][] lanes){
-        for(int i = 0; i < lanes.length; i++){
-            for(int j = 0; j < lanes[i].length; j++){
+
+    private void setNeighbors(TrackObject[][] lanes) {
+        for (int i = 0; i < lanes.length; i++) {
+            for (int j = 0; j < lanes[i].length; j++) {
 
                 lanes[i][j].setNeighbors(lanes, i, j);
             }
@@ -64,19 +68,19 @@ private TrackObject[][] lanes;
     public void singleLane(TrackObject[][] lanes) {
         for (int i = 0; i < lanes.length; i++) {
             for (int j = 0; j < lanes[i].length; j++) {
-                lanes[i][j] = new Track(false, null);
+                lanes[i][j] = new Track(false);
             }
 
         }
-        lanes[0][0] = new Track(false, String.valueOf((char) (65)));
-        lanes[0][lanes.length] = new Track(false, String.valueOf((char) (66)));
+        lanes[0][0] = new Station(false, String.valueOf((char) (65)));
+        lanes[0][lanes.length] = new Station(false, String.valueOf((char) (66)));
 
     }
 
-        public static void main(String[] args){
-        TrackObject[][] layout = new TrackObject[3][9];
+    public static void main(String[] args) {
+        TrackObject[][] layout = new TrackObject[3][10];
 
         TrackLayout tl = new TrackLayout(layout);
 
-        }
+    }
 }

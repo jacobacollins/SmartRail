@@ -1,4 +1,3 @@
-package sample;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -7,11 +6,13 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
@@ -42,14 +43,22 @@ public class Main extends Application {
 
         StackPane canvasPane = new StackPane();
 
-        Canvas middle = new Canvas(50,50);
+        Canvas middle = new Canvas(800,350);
         canvasPane.getChildren().add(middle);
         canvasPane.setStyle("-fx-background-color: gainsboro");
         canvasPane.setAlignment(Pos.CENTER);
         root.setCenter(canvasPane);
         BorderPane.setMargin(canvasPane, new Insets(25,25,25,25));
 
-        primaryStage.setScene(new Scene(root, 900, 400));
+      GraphicsContext gc = middle.getGraphicsContext2D();
+
+      Train t2 = new Train( "blah", middle);
+      Thread t1 = new Thread( t2);
+        gc.fillRect(t2.getX(),t2.getY(),10,10);
+      t1.start();
+
+
+        primaryStage.setScene(new Scene(root, 1100, 400));
         primaryStage.setResizable(false);
         primaryStage.show();
     }
@@ -58,4 +67,7 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-}
+
+
+    }
+

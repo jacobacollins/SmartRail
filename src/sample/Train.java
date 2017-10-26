@@ -20,6 +20,7 @@ public class Train extends TrackObject implements Runnable {
         train.setX(25);
         train.setY(25);
         this.canvas = canvas;
+//        this.currentTrack = currentTrack;
         gc = canvas.getGraphicsContext2D();
     }
 

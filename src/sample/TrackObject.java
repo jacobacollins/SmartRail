@@ -4,8 +4,11 @@ public class TrackObject {
     private boolean isOccupied;
     private TrackObject leftNeighbor, rightNeighbor, bottomNeighbor, topNeighbor;
 
+    public boolean isOccupied() {
+        return isOccupied;
+    }
 
-public TrackObject(String ID, boolean isOccupied){
+    public TrackObject(String ID, boolean isOccupied){
 
     this.ID = ID;
     this.isOccupied = isOccupied;
