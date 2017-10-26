@@ -12,6 +12,7 @@ public class Train extends TrackObject implements Runnable {
     private Canvas canvas;
     private GraphicsContext gc;
     private boolean flag = false;
+    private Track currentTrack;
 
 
     public Train(String TrainID, Canvas canvas) {
