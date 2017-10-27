@@ -1,3 +1,4 @@
+package sample;
 public class Switches extends TrackObject {
 
     private boolean blocked, on;

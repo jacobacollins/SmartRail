@@ -1,3 +1,5 @@
+package sample;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -5,19 +7,19 @@ import java.util.List;
  */
 public class Path
 {
-  private List<Tracks> path = new LinkedList<>();
+  private List<Track> path = new LinkedList<>();
 
-  public void addToPath(Tracks track)
+  public void addToPath(Track track)
   {
     path.add(track);
   }
 
-  public void removePath(Tracks track)
+  public void removePath(Track track)
   {
     path.remove(track);
   }
 
-  public List<Tracks> getPath()
+  public List<Track> getPath()
   {
     return path;
   }
