@@ -1,3 +1,4 @@
+package sample;
 public class Station extends TrackObject {
 
     private String StationID;

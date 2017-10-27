@@ -1,4 +1,4 @@
-
+package sample;
 public class TrackLayout {
 
     private TrackObject[][] lanes;

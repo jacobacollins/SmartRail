@@ -1,4 +1,4 @@
-
+package sample;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -54,7 +54,9 @@ public class Main extends Application {
         TrackObject[][] layout = new TrackObject[1][11];
 //        layout = [3][10]
       TrackLayout tl = new TrackLayout(layout);
-
+      LayoutDisplay layoutDisplay = new LayoutDisplay(middle);
+      tl.singleLane(layout);
+      layoutDisplay.tracksDisplay(layout);
 
       Train t2 = new Train( "blah", middle, layout[0][0]);
       Thread t1 = new Thread( t2);

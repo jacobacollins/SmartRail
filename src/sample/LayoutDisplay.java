@@ -24,23 +24,23 @@ public class LayoutDisplay
   public void stationDisplay(int position, String ID)
   {
     gc.setFill(new Color(0,0,0, 1));
-    gc.fillRect(position*30, 50, 25,25);
+    gc.fillRect(position*55, 50, 50,50);
     gc.setFill(new Color(1,1,1,1));
-    gc.fillText("A", position*30, 65);
+    gc.fillText("A", position*55, 65);
   }
   public void trackDisplay(int position)
   {
     gc.setFill(new Color(0,0,0, 1));
-    gc.fillRect(position*30, 65, 25,10);
+    gc.fillRect(position*55, 90, 50,10);
   }
 
   public void lightDisplay(int position)
   {
     gc.setFill(new Color(0,0,0, 1));
-    gc.fillRect(position*30, 65, 25,10);
-    gc.fillRect(position*30, 50, 10, 25);
+    gc.fillRect(position*55, 90, 50,10);
+    gc.fillRect(position*55, 40, 20, 50);
     gc.setFill(new Color(0, 1, 0, 1));
-    gc.fillOval(position*30,50, 10,10);
+    gc.fillOval(position*55,40, 20,20);
   }
 
   public void drDisplay()
