@@ -54,6 +54,11 @@ public class Main extends Application {
         TrackObject[][] layout = new TrackObject[1][11];
 //        layout = [3][10]
       TrackLayout tl = new TrackLayout(layout);
+      LayoutDisplay lD1 = new LayoutDisplay(middle);
+      lD1.stationDisplay();
+      lD1.trackDisplay();
+      lD1.lightDisplay();
+      lD1.switchDisplay();
 
 
       Train t2 = new Train( "blah", middle, layout[0][0]);
