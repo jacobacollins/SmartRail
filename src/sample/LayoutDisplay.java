@@ -21,31 +21,63 @@ public class LayoutDisplay
     gc = canvas.getGraphicsContext2D();
   }
 
-  public void stationDisplay()
+  public void stationDisplay(int position, String ID)
   {
     gc.setFill(new Color(0,0,0, 1));
-    gc.fillRect(50, 50, 25,25);
+    gc.fillRect(position*30, 50, 25,25);
     gc.setFill(new Color(1,1,1,1));
-    gc.fillText("A", 60, 70);
+    gc.fillText("A", position*30, 65);
   }
-  public void trackDisplay()
+  public void trackDisplay(int position)
   {
     gc.setFill(new Color(0,0,0, 1));
-    gc.fillRect(80, 65, 25,10);
+    gc.fillRect(position*30, 65, 25,10);
   }
 
-  public void lightDisplay()
+  public void lightDisplay(int position)
   {
     gc.setFill(new Color(0,0,0, 1));
-    gc.fillRect(110, 65, 25,10);
-    gc.fillRect(120, 50, 10, 25);
+    gc.fillRect(position*30, 65, 25,10);
+    gc.fillRect(position*30, 50, 10, 25);
     gc.setFill(new Color(0, 1, 0, 1));
-    gc.fillOval(120,50, 10,10);
+    gc.fillOval(position*30,50, 10,10);
   }
 
-  public void switchDisplay()
+  public void drDisplay()
   {
     gc.setFill(new Color(1, 0, 0, 1));
     gc.fillRect(140, 65, 25, 10);
+  }
+
+  public void dlDisplay()
+  {
+    gc.setFill(new Color(0, 0, 1, 1));
+    gc.fillRect(140, 65, 25, 10);
+  }
+
+  public void tracksDisplay(TrackObject[][] trackObjects)
+  {
+    int position = 2;
+    for(int i = 0; i < trackObjects.length; i++)
+    {
+      for(int j = 0; j < trackObjects[i].length; j++)
+      {
+        if(trackObjects[i][j].getID().equals("track"))
+        {
+          trackDisplay(position);
+          position++;
+        }
+        else if(trackObjects[i][j].getID().equals("light"))
+        {
+          lightDisplay(position);
+          position++;
+        }
+        else
+        {
+          stationDisplay(position, trackObjects[i][j].getID());
+          position++;
+        }
+      }
+    }
   }
 }
