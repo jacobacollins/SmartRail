@@ -1,4 +1,4 @@
-package sample;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -49,18 +49,11 @@ public class Main extends Application {
         canvasPane.setAlignment(Pos.CENTER);
         root.setCenter(canvasPane);
         BorderPane.setMargin(canvasPane, new Insets(25,25,25,25));
-//      GraphicsContext gc = middle.getGraphicsContext2D();
+//      GraphicsContext gc = middle.getGraphicsContext2D();  
 
         TrackObject[][] layout = new TrackObject[1][11];
 //        layout = [3][10]
       TrackLayout tl = new TrackLayout(layout);
-      tl.singleLane(layout);
-      LayoutDisplay lD1 = new LayoutDisplay(middle);
-      lD1.tracksDisplay(layout);
-//      lD1.stationDisplay();
-//      lD1.trackDisplay();
-//      lD1.lightDisplay();
-//      lD1.drDisplay();
 
 
       Train t2 = new Train( "blah", middle, layout[0][0]);

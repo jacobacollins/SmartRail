@@ -1,4 +1,3 @@
-package sample;
 public class TrackObject {
 
     private String ID;

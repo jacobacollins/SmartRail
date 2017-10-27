@@ -1,4 +1,3 @@
-package sample;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.shape.Rectangle;
@@ -6,7 +5,8 @@ import javafx.scene.shape.Rectangle;
 public class Train extends TrackObject implements Runnable {
     private Rectangle train = new Rectangle();
     private boolean moving = false;
-    private int x, y = 25;
+    private int x;
+    private int y = 200;
     private Canvas canvas;
     private GraphicsContext gc;
     private boolean flag = false;
@@ -15,8 +15,7 @@ public class Train extends TrackObject implements Runnable {
 
     public Train(String TrainID, Canvas canvas, TrackObject currentTrack) {
         super(TrainID, false);
-        train.setX(25);
-        train.setY(25);
+
         this.canvas = canvas;
         this.currentTrack = currentTrack;
         gc = canvas.getGraphicsContext2D();
