@@ -55,10 +55,10 @@ public class Main extends Application {
 //        layout = [3][10]
       TrackLayout tl = new TrackLayout(layout);
       LayoutDisplay layoutDisplay = new LayoutDisplay(middle);
-      tl.singleLane(layout);
+
       layoutDisplay.tracksDisplay(layout);
 
-      Train t2 = new Train( "blah", middle, layout[0][0]);
+      Train t2 = new Train( "blah", middle, layout[0][1], "B");
       Thread t1 = new Thread( t2);
 
       t1.start();

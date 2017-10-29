@@ -24,35 +24,35 @@ public class LayoutDisplay
   public void stationDisplay(int position, String ID)
   {
     gc.setFill(new Color(0,0,0, 1));
-    gc.fillRect(position*55, 50, 50,50);
+    gc.fillRect(position*55, 150, 50,50);
     gc.setFill(new Color(1,1,1,1));
-    gc.fillText("A", position*55, 65);
+    gc.fillText("A", position*55, 165);
   }
   public void trackDisplay(int position)
   {
     gc.setFill(new Color(0,0,0, 1));
-    gc.fillRect(position*55, 90, 50,10);
+    gc.fillRect(position*55, 190, 50,10);
   }
 
   public void lightDisplay(int position)
   {
     gc.setFill(new Color(0,0,0, 1));
-    gc.fillRect(position*55, 90, 50,10);
-    gc.fillRect(position*55, 40, 20, 50);
+    gc.fillRect(position*55, 190, 50,10);
+    gc.fillRect(position*55, 140, 20, 50);
     gc.setFill(new Color(0, 1, 0, 1));
-    gc.fillOval(position*55,40, 20,20);
+    gc.fillOval(position*55,140, 20,20);
   }
 
   public void drDisplay()
   {
     gc.setFill(new Color(1, 0, 0, 1));
-    gc.fillRect(140, 65, 25, 10);
+    gc.fillRect(140, 165, 25, 10);
   }
 
   public void dlDisplay()
   {
     gc.setFill(new Color(0, 0, 1, 1));
-    gc.fillRect(140, 65, 25, 10);
+    gc.fillRect(140, 165, 25, 10);
   }
 
   public void tracksDisplay(TrackObject[][] trackObjects)
