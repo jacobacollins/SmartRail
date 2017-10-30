@@ -14,6 +14,7 @@ public class LayoutDisplay
 {
   private Canvas canvas;
   private GraphicsContext gc;
+  private int stationNumber = 65;
   Rectangle rectangle = new Rectangle();
   public LayoutDisplay(Canvas canvas)
   {
@@ -26,7 +27,8 @@ public class LayoutDisplay
     gc.setFill(new Color(0,0,0, 1));
     gc.fillRect(position*55, 150, 50,50);
     gc.setFill(new Color(1,1,1,1));
-    gc.fillText("A", position*55, 165);
+    gc.fillText(String.valueOf((char) (stationNumber)), position*55 + 20, 175);
+    stationNumber++;
   }
   public void trackDisplay(int position)
   {
