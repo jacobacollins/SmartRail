@@ -7,7 +7,7 @@ import javafx.scene.paint.Color;
 
 public class Train extends TrackObject implements Runnable {
     private Rectangle train = new Rectangle();
-    private boolean moving = false;
+    private boolean moving = true;
 
     private int x = 170;
     private int y = 160;
@@ -31,6 +31,7 @@ public class Train extends TrackObject implements Runnable {
         gc = canvas.getGraphicsContext2D();
         this.destination = destination;
         light = false;
+
     }
 
 
@@ -44,11 +45,14 @@ public class Train extends TrackObject implements Runnable {
         }
 
 
-
     }
 
     public int getX() {
         return x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
     }
 
     public int getY() {
@@ -65,27 +69,31 @@ public class Train extends TrackObject implements Runnable {
 
 
                 if (currentTrack.getRightNeighbor() != null) {
-                  System.out.println(currentTrack.getRightNeighbor().isOccupied());
+
+
+
                     if (currentTrack.getRightNeighbor().getID().equals(destination)) {
-                        System.out.println("You've reached " + destination);
+                        System.out.println("You made it to your destination");
                         break;
                     }
 
-                    if (currentTrack.getRightNeighbor().getID().equals("light") && currentTrack.getRightNeighbor().isOccupied()) {
 
-                        System.out.println("light is on");
-                        setLight(true);
+//                    System.out.println(currentTrack.getRightNeighbor().getID());
+
+
+                    if (currentTrack.getRightNeighbor().getID().equals("track") && moving ) {
+
 
                         currentTrack = currentTrack.getRightNeighbor();
+                        moveTrain();
+                    }
+                    else {//check lights
+                        checkLights();
+                        //check switches
+                        checkSwitches();
                     }
 
 
-                    gc.clearRect(getX(), getY(), 30, 20);
-                    changeCoordinates();
-                    gc.fillRect(getX(), getY(), 30, 20);
-
-
-                    currentTrack = currentTrack.getRightNeighbor();
                 } else {
                     flag = true;
                     System.out.println("Train thread is dying");
@@ -100,6 +108,71 @@ public class Train extends TrackObject implements Runnable {
         }
     }
 
+    public void checkSwitches() {
+
+
+        switch (currentTrack.getRightNeighbor().getID()) {
+            //if the switch is on
+            case "urs":
+                if (currentTrack.getRightNeighbor().isOccupied()) {
+                    //keep moving but go up
+                    setY(getY() - 25);
+                    currentTrack = currentTrack.getTopNeighbor();
+                    moveTrain();
+
+                }
+                break;
+            case "uls":
+                if (currentTrack.getRightNeighbor().isOccupied()) {
+                    moving = false;
+                }
+                break;
+            case "dls":
+                if (currentTrack.getRightNeighbor().isOccupied()) {
+                    moving = false;
+                }
+            case "drs":
+                if (currentTrack.getRightNeighbor().isOccupied()) {
+                    setY(getY() + 25);
+                    currentTrack = currentTrack.getBottomNeighbor();
+                    moveTrain();
+
+                }
+
+
+        }
+    }
+
+    public void checkLights() {
+        if (currentTrack.getRightNeighbor().getID().equals("light")) {
+
+            if (currentTrack.getRightNeighbor().isOccupied()) {
+                //light is on red
+                moving = false;
+                System.out.println("light is red");
+
+
+
+            } else if(!currentTrack.getRightNeighbor().isOccupied()) {
+                //light is on green
+//                System.out.println("light is green");
+                setLight(true);
+                moveTrain();
+                 currentTrack = currentTrack.getRightNeighbor().getRightNeighbor();
+
+
+
+
+            }
+
+        }
+    }
+
+    public void moveTrain() {
+        gc.clearRect(getX(), getY(), 30, 20);
+        changeCoordinates();
+        gc.fillRect(getX(), getY(), 30, 20);
+    }
 
     public boolean isLight() {
         return light;

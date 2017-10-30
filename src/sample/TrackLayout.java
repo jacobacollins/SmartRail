@@ -78,14 +78,10 @@ public class TrackLayout {
         }
         lanes[0][0] = new Station(false, String.valueOf((char) (65)));
         lanes[0][lanes[0].length - 1] = new Station(false, String.valueOf((char) (66)));
-        lanes[0][5] = new Light(true);
+      //  lanes[0][5] = new Switches(true, "urs", true);
+        lanes[0][5] = new Light(false);
 
     }
 
-//    public static void main(String[] args) {
-//        TrackObject[][] layout = new TrackObject[1][11];
-//
-//        TrackLayout tl = new TrackLayout(layout);
-//
-//    }
+
 }

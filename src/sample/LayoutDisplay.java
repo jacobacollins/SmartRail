@@ -34,12 +34,18 @@ public class LayoutDisplay
     gc.fillRect(position*55, 190, 50,10);
   }
 
-  public void lightDisplay(int position)
+  public void lightDisplay(int position, boolean red)
   {
     gc.setFill(new Color(0,0,0, 1));
     gc.fillRect(position*55, 190, 50,10);
     gc.fillRect(position*55, 140, 20, 50);
+  if(red){
+    gc.setFill(new Color(1, 0, 0, 1));
+  }
+  else if(!red){
     gc.setFill(new Color(0, 1, 0, 1));
+  }
+
     gc.fillOval(position*55,140, 20,20);
   }
 
@@ -69,8 +75,13 @@ public class LayoutDisplay
         }
         else if(trackObjects[i][j].getID().equals("light"))
         {
-          lightDisplay(position);
-          position++;
+          if (trackObjects[i][j].isOccupied()) {
+            lightDisplay(position, true);
+            position++;
+          } else if (!trackObjects[i][j].isOccupied()) {
+            lightDisplay(position, false);
+            position++;
+          }
         }
         else
         {
