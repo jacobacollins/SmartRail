@@ -51,12 +51,12 @@ public class Main extends Application {
         BorderPane.setMargin(canvasPane, new Insets(25,25,25,25));
 //      GraphicsContext gc = middle.getGraphicsContext2D();  
 
-        TrackObject[][] layout = new TrackObject[1][11];
-//        layout = [3][10]
+        TrackObject[][] layout = new TrackObject[3][10];
+//        layout = [1][11]
       TrackLayout tl = new TrackLayout(layout);
       LayoutDisplay layoutDisplay = new LayoutDisplay(middle);
 
-      layoutDisplay.tracksDisplay(layout);
+      //layoutDisplay.tracksDisplay(layout);
 
       Train t2 = new Train( "blah", middle, layout[0][1], "B");
       Thread t1 = new Thread( t2);

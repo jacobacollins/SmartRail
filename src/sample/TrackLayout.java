@@ -6,8 +6,8 @@ public class TrackLayout {
     public TrackLayout(TrackObject[][] lanes) {
 
         this.lanes = lanes;
-       // multipleLanes(lanes);
-        singleLane(lanes);
+        multipleLanes(lanes);
+        //singleLane(lanes);
         printLayout();
         setNeighbors(lanes);
 
