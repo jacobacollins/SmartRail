@@ -46,9 +46,9 @@ public class TrackLayout {
 
             }
 
-            lanes[0][5] = new Switches(false, "drs", false);
+            lanes[0][5] = new Switches(true, "drs", false);
             lanes[1][2] = new Switches(false, "urs", false);
-            lanes[1][7] = new Switches(false, "drs", false);
+            lanes[1][7] = new Switches(true, "drs", false);
             lanes[2][4] = new Switches(false, "uls", false);
 
             lanes[0][2] = new Light(false);

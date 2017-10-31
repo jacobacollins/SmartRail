@@ -25,7 +25,7 @@ public class LayoutDisplay
   public void stationDisplay(int pX, int pY, String ID)
   {
     gc.setFill(new Color(0,0,0, 1));
-    gc.fillRect(pX*50, pY*150, 50,50);
+    gc.fillRect(pX*55, pY*150, 50,50);
     gc.setFill(new Color(1,1,1,1));
     //gc.fillText(String.valueOf((char) (stationNumber)), pX*55 + 20, 75);
     stationNumber++;
@@ -77,7 +77,7 @@ public class LayoutDisplay
 
   public void tracksDisplay(TrackObject[][] trackObjects)
   {
-    int pX = 2;
+    int pX = 0;
     int pY = 0;
     for(int i = 0; i < trackObjects.length; i++)
     {
@@ -125,7 +125,7 @@ public class LayoutDisplay
         }
       }
       pY++;
-      pX = 2;
+      pX = 0;
     }
   }
 }

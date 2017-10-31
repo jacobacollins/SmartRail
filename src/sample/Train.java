@@ -10,8 +10,8 @@ public class Train extends TrackObject implements Runnable {
     private Rectangle train = new Rectangle();
     private boolean moving = true;
 
-    private int x = 170;
-    private int y = 160;
+    private int x = 55;
+    private int y = 0;
     private int direction;
     private Canvas canvas;
     private GraphicsContext gc;
@@ -70,8 +70,8 @@ public class Train extends TrackObject implements Runnable {
             try {
                 gc.setFill(Color.RED);
                 gc.fillRect(getX(), getY(), 30, 20);
-                System.out.print(currentTrack.getID() + " ");
-                Thread.sleep(1000);
+                System.out.print(currentTrack.getRightNeighbor().getID() + " ");
+                Thread.sleep(3000);
 
                 if (direction == 1) {
                     if (currentTrack.getRightNeighbor() != null) {
@@ -197,13 +197,15 @@ public class Train extends TrackObject implements Runnable {
                 if (currentTrack.getRightNeighbor().isOccupied()) {
                     moving = false;
                 }
+                break;
             case "drs":
                 if (currentTrack.getRightNeighbor().isOccupied()) {
-                    setY(getY() + 25);
-                    currentTrack = currentTrack.getBottomNeighbor();
+                    setY(getY() + 100);
+                    currentTrack = currentTrack.getRightNeighbor().getBottomNeighbor();
                     moveTrain();
 
                 }
+                break;
 
 
         }
