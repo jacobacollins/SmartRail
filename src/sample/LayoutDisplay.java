@@ -22,25 +22,25 @@ public class LayoutDisplay
     gc = canvas.getGraphicsContext2D();
   }
 
-  public void stationDisplay(int pX, int py, String ID)
+  public void stationDisplay(int pX, int pY, String ID)
   {
     gc.setFill(new Color(0,0,0, 1));
-    gc.fillRect(pX*55, 150, 50,50);
+    gc.fillRect(pX*50, pY*150, 50,50);
     gc.setFill(new Color(1,1,1,1));
-    gc.fillText(String.valueOf((char) (stationNumber)), pX*55 + 20, 175);
+    //gc.fillText(String.valueOf((char) (stationNumber)), pX*55 + 20, 75);
     stationNumber++;
   }
   public void trackDisplay(int pX, int pY)
   {
     gc.setFill(new Color(0,0,0, 1));
-    gc.fillRect(pX*55, 190, 50,10);
+    gc.fillRect(pX*55, pY*150+40, 50,10);
   }
 
   public void lightDisplay(int pX, int pY, boolean red)
   {
     gc.setFill(new Color(0,0,0, 1));
-    gc.fillRect(pX*55, 190, 50,10);
-    gc.fillRect(pX*55, 140, 20, 50);
+    gc.fillRect(pX*55, pY*150 + 40, 50,10);
+    gc.fillRect(pX*55, pY*150, 20, 50);
   if(red){
     gc.setFill(new Color(1, 0, 0, 1));
   }
@@ -48,31 +48,31 @@ public class LayoutDisplay
     gc.setFill(new Color(0, 1, 0, 1));
   }
 
-    gc.fillOval(pX*55,140, 20,20);
+    gc.fillOval(pX*55,pY*150, 20,20);
   }
 
   public void drDisplay(int pX, int pY)
   {
     gc.setFill(new Color(1, 0, 0, 1));
-    gc.fillRect(pX*55, 165, 25, 10);
+    gc.fillRect(pX*55, pY*150 + 40, 50,10);
   }
 
   public void dlDisplay(int pX, int pY)
   {
     gc.setFill(new Color(0, 0, 1, 1));
-    gc.fillRect(pX*55, 165, 25, 10);
+    gc.fillRect(pX*55, pY*150 + 40, 50,10);
   }
 
   public void urDisplay(int pX, int pY)
   {
     gc.setFill(new Color(0, 1, 0, 1));
-    gc.fillRect(pX*55, 165, 25, 10);
+    gc.fillRect(pX*55, pY*150 + 40, 50,10);
   }
 
   public void ulDisplay(int pX, int pY)
   {
     gc.setFill(new Color(1, 0, 1, 1));
-    gc.fillRect(pX*55, 165, 25, 10);
+    gc.fillRect(pX*55, pY*150 + 40, 50,10);
   }
 
   public void tracksDisplay(TrackObject[][] trackObjects)
@@ -98,22 +98,22 @@ public class LayoutDisplay
             pX++;
           }
         }
-        else if(trackObjects[i][j].equals("drs"))
+        else if(trackObjects[i][j].getID().equals("drs"))
         {
           drDisplay(pX, pY);
           pX++;
         }
-        else if(trackObjects[i][j].equals("dls"))
+        else if(trackObjects[i][j].getID().equals("dls"))
         {
           dlDisplay(pX, pY);
           pX++;
         }
-        else if(trackObjects[i][j].equals("urs"))
+        else if(trackObjects[i][j].getID().equals("urs"))
         {
           urDisplay(pX, pY);
           pX++;
         }
-        else if(trackObjects[i][j].equals("uls"))
+        else if(trackObjects[i][j].getID().equals("uls"))
         {
           ulDisplay(pX, pY);
           pX++;
@@ -125,6 +125,7 @@ public class LayoutDisplay
         }
       }
       pY++;
+      pX = 2;
     }
   }
 }

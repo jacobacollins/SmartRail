@@ -56,7 +56,7 @@ public class Main extends Application {
       TrackLayout tl = new TrackLayout(layout);
       LayoutDisplay layoutDisplay = new LayoutDisplay(middle);
 
-      //layoutDisplay.tracksDisplay(layout);
+      layoutDisplay.tracksDisplay(layout);
 
       Train t2 = new Train( "blah", middle, layout[0][1], "B");
       Thread t1 = new Thread( t2);
