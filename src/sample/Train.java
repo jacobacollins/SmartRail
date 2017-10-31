@@ -70,7 +70,7 @@ public class Train extends TrackObject implements Runnable {
             try {
                 gc.setFill(Color.RED);
                 gc.fillRect(getX(), getY(), 30, 20);
-//                System.out.print(currentTrack.getID() + " ");
+                System.out.print(currentTrack.getID() + " ");
                 Thread.sleep(1000);
 
                 if (direction == 1) {
@@ -78,14 +78,14 @@ public class Train extends TrackObject implements Runnable {
 
 
                         if (currentTrack.getRightNeighbor().getID().equals(destination)) {
-//                            System.out.println("You made it to your destination");
+                            System.out.println("You made it to your destination");
                             direction *= -1;
                             Platform.runLater(() -> destination = new ConductorScreen(Thread.currentThread()).getDestination());
                             String temp = destination;
                             while (destination != null) {
 
 
-                                if (temp != destination) {
+                                if (temp != destination && searchFunction(currentTrack, direction, destination)) {
                                     moving = true;
                                     break;
                                 }
@@ -94,7 +94,6 @@ public class Train extends TrackObject implements Runnable {
                         }
 
 
-//                    System.out.println(currentTrack.getRightNeighbor().getID());
 
 
                         if (currentTrack.getRightNeighbor().getID().equals("track") && moving) {
@@ -129,7 +128,7 @@ public class Train extends TrackObject implements Runnable {
                             while (destination != null) {
 
 
-                                if (temp != destination) {
+                                if (temp != destination && searchFunction(currentTrack, direction, destination)) {
                                     moving = true;
                                     break;
                                 }
@@ -262,5 +261,38 @@ public class Train extends TrackObject implements Runnable {
 
     public boolean isLight() {
         return light;
+    }
+
+    private boolean searchFunction(TrackObject currentTrack, int direction, String destination) {
+//        System.out.println(currentTrack.getID());
+//        System.out.println(currentTrack.getLeftNeighbor().getID());
+//        System.out.println(direction);
+//        System.out.println(destination);
+
+        while (!currentTrack.getLeftNeighbor().getID().equals(null) && !currentTrack.getRightNeighbor().getID().equals(null)) {
+
+            if (direction == 1) {
+
+                if (!currentTrack.getRightNeighbor().getID().equals(destination) && !currentTrack.getRightNeighbor().equals(null)) {
+                    currentTrack = currentTrack.getRightNeighbor();
+                    searchFunction(currentTrack, direction, destination);
+
+                } else {
+                    return true;
+                }
+            } else if (direction == -1) {
+
+                if (!currentTrack.getLeftNeighbor().getID().equals(destination) && !currentTrack.getLeftNeighbor().equals(null)) {
+                    currentTrack = currentTrack.getLeftNeighbor();
+                    searchFunction(currentTrack, direction, destination);
+
+                } else {
+
+                    return true;
+                }
+
+            }
+        }
+        return false;
     }
 }
