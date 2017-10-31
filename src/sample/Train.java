@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.shape.Rectangle;
@@ -11,19 +12,16 @@ public class Train extends TrackObject implements Runnable {
 
     private int x = 170;
     private int y = 160;
+    private int direction;
     private Canvas canvas;
     private GraphicsContext gc;
     private boolean flag;
-
-    public void setLight(boolean light) {
-        this.light = light;
-    }
-
     private boolean light = false;
     private TrackObject currentTrack;
-    private String destination;
+    private volatile String destination;
+    private boolean threadRunning = true;
 
-    public Train(String TrainID, Canvas canvas, TrackObject currentTrack, String destination) {
+    public Train(String TrainID, Canvas canvas, TrackObject currentTrack, String destination, int direction) {
         super(TrainID, false);
 
         this.canvas = canvas;
@@ -31,16 +29,22 @@ public class Train extends TrackObject implements Runnable {
         gc = canvas.getGraphicsContext2D();
         this.destination = destination;
         light = false;
+        this.direction = direction;
 
+    }
+
+
+    public void setLight(boolean light) {
+        this.light = light;
     }
 
 
     private void changeCoordinates() {
         if (isLight()) {
-            x += 110;
+            x += direction * 110;
             setLight(false);
         } else if (!isLight()) {
-            x += 55;
+            x += direction * 55;
 
         }
 
@@ -61,52 +65,115 @@ public class Train extends TrackObject implements Runnable {
 
     public void run() {
         while (!flag) {
+
+
             try {
                 gc.setFill(Color.RED);
                 gc.fillRect(getX(), getY(), 30, 20);
-                System.out.print(currentTrack.getID() + " ");
-                Thread.sleep(2000);
+//                System.out.print(currentTrack.getID() + " ");
+                Thread.sleep(1000);
+
+                if (direction == 1) {
+                    if (currentTrack.getRightNeighbor() != null) {
 
 
-                if (currentTrack.getRightNeighbor() != null) {
+                        if (currentTrack.getRightNeighbor().getID().equals(destination)) {
+//                            System.out.println("You made it to your destination");
+                            direction *= -1;
+                            Platform.runLater(() -> destination = new ConductorScreen(Thread.currentThread()).getDestination());
+                            String temp = destination;
+                            while (destination != null) {
 
 
+                                if (temp != destination) {
+                                    moving = true;
+                                    break;
+                                }
+                            }
 
-                    if (currentTrack.getRightNeighbor().getID().equals(destination)) {
-                        System.out.println("You made it to your destination");
-                        break;
-                    }
+                        }
 
 
 //                    System.out.println(currentTrack.getRightNeighbor().getID());
 
 
-                    if (currentTrack.getRightNeighbor().getID().equals("track") && moving ) {
+                        if (currentTrack.getRightNeighbor().getID().equals("track") && moving) {
 
 
-                        currentTrack = currentTrack.getRightNeighbor();
-                        moveTrain();
+                            currentTrack = currentTrack.getRightNeighbor();
+                            moveTrain();
+                        } else {//check lights
+                            checkRightLights();
+                            //check switches
+                            checkSwitches();
+                        }
+
+
+                    } else {
+                        flag = true;
+//                        System.out.println("Train thread is dying");
                     }
-                    else {//check lights
-                        checkLights();
-                        //check switches
-                        checkSwitches();
+
+                } else if (direction == -1) {
+                    if (currentTrack.getLeftNeighbor() != null) {
+
+
+                        if (currentTrack.getLeftNeighbor().getID().equals(destination)) {
+//                            System.out.println("You made it to your destination");
+                            direction *= -1;
+                            String temp = destination;
+
+                            Platform.runLater(() -> destination = new ConductorScreen(Thread.currentThread()).getDestination());
+
+
+                            while (destination != null) {
+
+
+                                if (temp != destination) {
+                                    moving = true;
+                                    break;
+                                }
+                            }
+//                                    else {
+//
+//                                        moving = false;
+//                                        System.out.println("in the looppppp");
+//                                    }
+
+//                                Thread.sleep(3000);
+
+
+                        }
+
+
+//                    System.out.println(currentTrack.getRightNeighbor().getID());
+
+
+                        if (currentTrack.getLeftNeighbor().getID().equals("track") && moving) {
+
+
+                            currentTrack = currentTrack.getLeftNeighbor();
+                            moveTrain();
+                        } else {//check lights
+                            checkLeftLights();
+                            //check switches
+                            checkSwitches();
+                        }
+
+
+                    } else {
+                        flag = true;
+//                        System.out.println("Train thread is dying");
                     }
-
-
-                } else {
-                    flag = true;
-                    System.out.println("Train thread is dying");
                 }
-
-
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
-
         }
+
     }
+
 
     public void checkSwitches() {
 
@@ -143,24 +210,43 @@ public class Train extends TrackObject implements Runnable {
         }
     }
 
-    public void checkLights() {
+    public void checkRightLights() {
         if (currentTrack.getRightNeighbor().getID().equals("light")) {
 
             if (currentTrack.getRightNeighbor().isOccupied()) {
                 //light is on red
                 moving = false;
-                System.out.println("light is red");
+//                System.out.println("light is red");
 
 
-
-            } else if(!currentTrack.getRightNeighbor().isOccupied()) {
+            } else if (!currentTrack.getRightNeighbor().isOccupied()) {
                 //light is on green
 //                System.out.println("light is green");
                 setLight(true);
                 moveTrain();
-                 currentTrack = currentTrack.getRightNeighbor().getRightNeighbor();
+                currentTrack = currentTrack.getRightNeighbor().getRightNeighbor();
 
 
+            }
+
+        }
+    }
+
+    public void checkLeftLights() {
+        if (currentTrack.getLeftNeighbor().getID().equals("light")) {
+
+            if (currentTrack.getLeftNeighbor().isOccupied()) {
+                //light is on red
+                moving = false;
+//                System.out.println("light is red");
+
+
+            } else if (!currentTrack.getLeftNeighbor().isOccupied()) {
+                //light is on green
+//                System.out.println("light is green");
+                setLight(true);
+                moveTrain();
+                currentTrack = currentTrack.getLeftNeighbor().getLeftNeighbor();
 
 
             }
