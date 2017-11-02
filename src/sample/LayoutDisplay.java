@@ -25,7 +25,7 @@ public class LayoutDisplay
   public void stationDisplay(int pX, int pY, String ID)
   {
     gc.setFill(new Color(0,0,0, 1));
-    gc.fillRect(pX*55, pY*150, 50,50);
+    gc.fillRect(pX*55, pY*75, 50,50);
     gc.setFill(new Color(1,1,1,1));
     //gc.fillText(String.valueOf((char) (stationNumber)), pX*55 + 20, 75);
     stationNumber++;
@@ -33,14 +33,14 @@ public class LayoutDisplay
   public void trackDisplay(int pX, int pY)
   {
     gc.setFill(new Color(0,0,0, 1));
-    gc.fillRect(pX*55, pY*150+40, 50,10);
+    gc.fillRect(pX*55, pY*75+40, 50,10);
   }
 
   public void lightDisplay(int pX, int pY, boolean red)
   {
     gc.setFill(new Color(0,0,0, 1));
-    gc.fillRect(pX*55, pY*150 + 40, 50,10);
-    gc.fillRect(pX*55, pY*150, 20, 50);
+    gc.fillRect(pX*55, pY*75 + 40, 50,10);
+    gc.fillRect(pX*55, pY*75, 20, 50);
   if(red){
     gc.setFill(new Color(1, 0, 0, 1));
   }
@@ -48,31 +48,31 @@ public class LayoutDisplay
     gc.setFill(new Color(0, 1, 0, 1));
   }
 
-    gc.fillOval(pX*55,pY*150, 20,20);
+    gc.fillOval(pX*55,pY*75, 20,20);
   }
 
   public void drDisplay(int pX, int pY)
   {
     gc.setFill(new Color(1, 0, 0, 1));
-    gc.fillRect(pX*55, pY*150 + 40, 50,10);
+    gc.fillRect(pX*55, pY*75 + 40, 50,10);
   }
 
   public void dlDisplay(int pX, int pY)
   {
     gc.setFill(new Color(0, 0, 1, 1));
-    gc.fillRect(pX*55, pY*150 + 40, 50,10);
+    gc.fillRect(pX*55, pY*75 + 40, 50,10);
   }
 
   public void urDisplay(int pX, int pY)
   {
     gc.setFill(new Color(0, 1, 0, 1));
-    gc.fillRect(pX*55, pY*150 + 40, 50,10);
+    gc.fillRect(pX*55, pY*75 + 40, 50,10);
   }
 
   public void ulDisplay(int pX, int pY)
   {
     gc.setFill(new Color(1, 0, 1, 1));
-    gc.fillRect(pX*55, pY*150 + 40, 50,10);
+    gc.fillRect(pX*55, pY*75 + 40, 50,10);
   }
 
   public void tracksDisplay(TrackObject[][] trackObjects)

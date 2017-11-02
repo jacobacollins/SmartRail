@@ -9,6 +9,11 @@ public class TrackLayout {
         multipleLanes(lanes);
         //singleLane(lanes);
         printLayout();
+
+       // multipleLanes(lanes);
+      //  singleLane(lanes);
+//        printLayout();
+
         setNeighbors(lanes);
 
     }

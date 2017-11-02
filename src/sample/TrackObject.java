@@ -2,14 +2,23 @@ package sample;
 public class TrackObject {
 
     private String ID;
-    private boolean isOccupied;
+    private boolean isOccupied, visited;
     private TrackObject leftNeighbor, rightNeighbor, bottomNeighbor, topNeighbor;
 
+
+    public boolean isVisited() {
+        return visited;
+    }
+
+    public void setVisited(boolean visited) {
+        this.visited = visited;
+    }
 
     public TrackObject(String ID, boolean isOccupied) {
 
         this.ID = ID;
         this.isOccupied = isOccupied;
+        this.visited = false;
 
     }
 

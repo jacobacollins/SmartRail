@@ -11,7 +11,8 @@ public class Train extends TrackObject implements Runnable {
     private boolean moving = true;
 
     private int x = 55;
-    private int y = 0;
+    private int y = 10;
+
     private int direction;
     private Canvas canvas;
     private GraphicsContext gc;
@@ -30,6 +31,13 @@ public class Train extends TrackObject implements Runnable {
         this.destination = destination;
         light = false;
         this.direction = direction;
+        Path p = new Path(currentTrack, destination);
+
+System.out.print("_______");
+        for(int i = 0; i < p.getPath().size(); i++){
+            System.out.print(p.getPath().get(i).getID() + " ");
+        }
+        System.out.println("______");
 
     }
 
@@ -70,8 +78,8 @@ public class Train extends TrackObject implements Runnable {
             try {
                 gc.setFill(Color.RED);
                 gc.fillRect(getX(), getY(), 30, 20);
-                System.out.print(currentTrack.getRightNeighbor().getID() + " ");
-                Thread.sleep(3000);
+                System.out.print(currentTrack.getID() + " ");
+                Thread.sleep(1000);
 
                 if (direction == 1) {
                     if (currentTrack.getRightNeighbor() != null) {
@@ -174,6 +182,10 @@ public class Train extends TrackObject implements Runnable {
     }
 
 
+    public void setX(int x) {
+        this.x = x;
+    }
+
     public void checkSwitches() {
 
 
@@ -186,6 +198,9 @@ public class Train extends TrackObject implements Runnable {
                     currentTrack = currentTrack.getTopNeighbor();
                     moveTrain();
 
+                } else{
+                    currentTrack = currentTrack.getRightNeighbor();
+                    moveTrain();
                 }
                 break;
             case "uls":
@@ -200,10 +215,16 @@ public class Train extends TrackObject implements Runnable {
                 break;
             case "drs":
                 if (currentTrack.getRightNeighbor().isOccupied()) {
-                    setY(getY() + 100);
+                    gc.clearRect(getX(), getY(),30, 20);
+
                     currentTrack = currentTrack.getRightNeighbor().getBottomNeighbor();
+                    setY(getY() + 75);
+                    setX(getX() + 55);
                     moveTrain();
 
+                } else{
+                    moveTrain();
+                    currentTrack = currentTrack.getRightNeighbor();
                 }
                 break;
 
@@ -297,4 +318,6 @@ public class Train extends TrackObject implements Runnable {
         }
         return false;
     }
+
+
 }
