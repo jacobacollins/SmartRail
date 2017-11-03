@@ -32,10 +32,11 @@ public class Train extends TrackObject implements Runnable {
         light = false;
         this.direction = direction;
         Path p = new Path(currentTrack, destination);
-
+        Path v = new Path(currentTrack, destination);
+        Path c = new Path(currentTrack, destination);
 System.out.print("_______");
-        for(int i = 0; i < p.getPath().size(); i++){
-            System.out.print(p.getPath().get(i).getID() + " ");
+        for(int i = 0; i < c.getPath().size(); i++){
+            System.out.print(c.getPath().get(i).getID() + " ");
         }
         System.out.println("______");
 

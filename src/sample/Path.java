@@ -33,7 +33,8 @@ public class Path
 
   private void buildPath(TrackObject currentTrack, String destination) {
 
-//      while (!currentTrack.getRightNeighbor().getID().equals(destination)) {
+
+      if (!currentTrack.getRightNeighbor().isVisited()) {
           if (currentTrack.getRightNeighbor().getID().equals("track") || currentTrack.getRightNeighbor().getID().equals("light")) {
               addToPath(currentTrack);
               System.out.println("added track or light");
@@ -52,12 +53,14 @@ public class Path
                       System.out.println("hello");
 
                       if (!currentTrack.getRightNeighbor().getBottomNeighbor().isVisited()) {
-                          System.out.println(currentTrack.getRightNeighbor().getBottomNeighbor().isVisited());
+                          System.out.println("hello again");
                           addToPath(currentTrack);
                           addToPath(currentTrack.getRightNeighbor());
                           currentTrack = currentTrack.getRightNeighbor().getBottomNeighbor();
                           buildPath(currentTrack, destination);
                       } else {
+                          System.out.println(currentTrack.getRightNeighbor().getBottomNeighbor().isVisited());
+
                           addToPath(currentTrack);
                           currentTrack = currentTrack.getRightNeighbor();
                           buildPath(currentTrack, destination);
@@ -74,15 +77,21 @@ public class Path
               addToPath(currentTrack);
               addToPath(currentTrack.getRightNeighbor());
               return;
-          } else {
-              currentTrack.setVisited(true);
-              addToPath(currentTrack);
-              addToPath(currentTrack.getRightNeighbor());
-              currentTrack.setVisited(true);
-            //  buildPath(firstTrack, destination);
-              return;
-          }
+          } else if(!currentTrack.getRightNeighbor().getID().equals(destination)) {
+
+          addToPath(currentTrack);
+          addToPath(currentTrack.getRightNeighbor());
+          currentTrack.setVisited(true);
+//              path.clear();
+//              buildPath(firstTrack, destination);
+          return;
       }
+      } else {
+          currentTrack.setVisited(true);
+          path.clear();
+          buildPath(firstTrack, destination);
+      }
+  }
 
 
 

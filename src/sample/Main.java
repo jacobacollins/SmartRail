@@ -55,11 +55,16 @@ public class Main extends Application {
 //        layout = [1][11]
       TrackLayout tl = new TrackLayout(layout);
       LayoutDisplay layoutDisplay = new LayoutDisplay(middle);
+
       System.out.println(layout[0][5].getBottomNeighbor().getID());
 
-      layoutDisplay.tracksDisplay(layout);
 
-      Train t2 = new Train( "blah", middle, layout[0][1], "B", 1);
+      layoutDisplay.tracksDisplay(layout);
+//  ConductorScreen inpute = new ConductorScreen(Thread.currentThread());
+
+      Train t2 = new Train( "blah", middle, layout[0][1], "V", 1);
+
+
       Thread t1 = new Thread( t2);
 
       t1.start();
