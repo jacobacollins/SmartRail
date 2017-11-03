@@ -37,7 +37,7 @@ public class Path
       if (!currentTrack.getRightNeighbor().isVisited()) {
           if (currentTrack.getRightNeighbor().getID().equals("track") || currentTrack.getRightNeighbor().getID().equals("light")) {
               addToPath(currentTrack);
-              System.out.println("added track or light");
+
 
               currentTrack = currentTrack.getRightNeighbor();
               buildPath(currentTrack, destination);
@@ -50,16 +50,15 @@ public class Path
                   case "urs":
                       break;
                   case "drs":
-                      System.out.println("hello");
+
 
                       if (!currentTrack.getRightNeighbor().getBottomNeighbor().isVisited()) {
-                          System.out.println("hello again");
                           addToPath(currentTrack);
                           addToPath(currentTrack.getRightNeighbor());
                           currentTrack = currentTrack.getRightNeighbor().getBottomNeighbor();
                           buildPath(currentTrack, destination);
                       } else {
-                          System.out.println(currentTrack.getRightNeighbor().getBottomNeighbor().isVisited());
+
 
                           addToPath(currentTrack);
                           currentTrack = currentTrack.getRightNeighbor();
@@ -82,8 +81,8 @@ public class Path
           addToPath(currentTrack);
           addToPath(currentTrack.getRightNeighbor());
           currentTrack.setVisited(true);
-//              path.clear();
-//              buildPath(firstTrack, destination);
+              path.clear();
+              buildPath(firstTrack, destination);
           return;
       }
       } else {
