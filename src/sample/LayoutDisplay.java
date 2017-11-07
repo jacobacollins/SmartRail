@@ -33,7 +33,7 @@ public class LayoutDisplay
   }
   public void trackDisplay(int pX, int pY)
   {
-    gc.drawImage(new Image("Track.png"), pX*55, pY*75+40, 50, 10);
+    gc.drawImage(new Image("Track.png"), pX*55, pY*50+5, 50, 50);
     //gc.setFill(new Color(0,0,0, 1));
     //gc.fillRect(pX*55, pY*75+40, 50,10);
   }
