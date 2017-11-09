@@ -33,7 +33,7 @@ public class LayoutDisplay
   }
   public void trackDisplay(int pX, int pY)
   {
-    gc.drawImage(new Image("Track.png"), pX*55, pY*50+5, 50, 50);
+    gc.drawImage(new Image("Track.png"), pX*55, pY*75+40, 50, 10);
     //gc.setFill(new Color(0,0,0, 1));
     //gc.fillRect(pX*55, pY*75+40, 50,10);
   }
@@ -58,9 +58,8 @@ public class LayoutDisplay
 
   public void drDisplay(int pX, int pY)
   {
-    gc.setFill(new Color(1, 0, 0, 1));
+    //gc.setFill(new Color(1, 0, 0, 1));
     gc.drawImage(new Image("Track.png"), pX*55, pY*75+40, 50, 10);
-
     gc.drawImage(new Image("DTrack.png"), pX*55+25, pY*75+50, 50, 50);
     //gc.rotate(45);
     //gc.fillRect(pX*55, -(pY*35 + 175), 75,10);
@@ -69,20 +68,26 @@ public class LayoutDisplay
 
   public void dlDisplay(int pX, int pY)
   {
-    gc.setFill(new Color(0, 0, 1, 1));
-    gc.fillRect(pX*55, pY*75 + 40, 50,10);
+    //gc.setFill(new Color(0, 0, 1, 1));
+    //gc.fillRect(pX*55, pY*75 + 40, 50,10);
+    gc.drawImage(new Image("Track.png"), pX*55, pY*75+40, 50, 10);
+    gc.drawImage(new Image("DLTrack.png"), pX*55-45, pY*75+50, 50, 50);
   }
 
   public void urDisplay(int pX, int pY)
   {
-    gc.setFill(new Color(0, 1, 0, 1));
-    gc.fillRect(pX*55, pY*75 + 40, 50,10);
+    //gc.setFill(new Color(0, 1, 0, 1));
+    //gc.fillRect(pX*55, pY*75 + 40, 50,10);
+    gc.drawImage(new Image("Track.png"), pX*55, pY*75+40, 50, 10);
+    gc.drawImage(new Image("DLTrack.png"), pX*55+25, pY*75-20, 50, 50);
   }
 
   public void ulDisplay(int pX, int pY)
   {
     gc.setFill(new Color(1, 0, 1, 1));
     gc.fillRect(pX*55, pY*75 + 40, 50,10);
+    //gc.drawImage(new Image("Track.png"), pX*55, pY*75+40, 50, 10);
+    gc.drawImage(new Image("DTrack.png"), pX*55-45, pY*75-20, 50, 50);
   }
 
   public void tracksDisplay(TrackObject[][] trackObjects)
