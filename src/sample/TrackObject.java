@@ -1,4 +1,7 @@
 package sample;
+
+import javax.sound.midi.Track;
+
 public class TrackObject {
 
     private String ID;
@@ -54,6 +57,14 @@ public class TrackObject {
 
     public TrackObject getBottomNeighbor() {
         return bottomNeighbor;
+    }
+
+    public TrackObject getNeighbor(int direction){
+        if(direction == 1){
+            return rightNeighbor;
+        } else {
+            return leftNeighbor;
+        }
     }
 
     public void setNeighbors(TrackObject[][] layout, int row, int col) {

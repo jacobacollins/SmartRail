@@ -1,13 +1,11 @@
 package sample;
 
-import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 
 public class Train extends TrackObject implements Runnable {
-    private Rectangle train = new Rectangle();
+
     private boolean moving = true;
 
     private int x = 55;
@@ -16,11 +14,29 @@ public class Train extends TrackObject implements Runnable {
     private int direction;
     private Canvas canvas;
     private GraphicsContext gc;
-    private boolean flag;
+    private boolean flag, valid;
     private boolean light = false;
     private TrackObject currentTrack;
+    private String TrainID;
+    private String temp;
+
+
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
+
     private volatile String destination;
     private boolean threadRunning = true;
+    private Path c;
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public String getTrainID() {
+
+        return TrainID;
+    }
 
     public Train(String TrainID, Canvas canvas, TrackObject currentTrack, String destination, int direction) {
         super(TrainID, false);
@@ -31,14 +47,13 @@ public class Train extends TrackObject implements Runnable {
         this.destination = destination;
         light = false;
         this.direction = direction;
+        this.TrainID = TrainID;
+        temp = destination;
 
 
-        Path c = new Path(currentTrack, destination);
-System.out.print("_______");
-        for(int i = 0; i < c.getPath().size(); i++){
-            System.out.print(c.getPath().get(i).getID() + " ");
-        }
-        System.out.println("______");
+        c = new Path(currentTrack, destination, direction);
+
+        printPath();
 
     }
 
@@ -73,139 +88,177 @@ System.out.print("_______");
     }
 
     public void run() {
-        while (!flag) {
+        while (!flag) try {
+            gc.setFill(Color.RED);
+            gc.fillRect(getX(), getY(), 30, 20);
+            //System.out.print(currentTrack.getID() + " ");
 
+//System.out.println(c.getPath().get(0).getRightNeighbor().getID());
+            Thread.sleep(500);
 
-            try {
-                gc.setFill(Color.RED);
-                gc.fillRect(getX(), getY(), 30, 20);
-                System.out.print(currentTrack.getID() + " ");
-                Thread.sleep(1000);
+            if (direction == 1 && !c.getPath().isEmpty() && moving) {
+               valid = true;
+                if (c.getPath().get(0) != null) {
 
-                if (direction == 1) {
-                    if (currentTrack.getRightNeighbor() != null) {
+//                      System.out.println(c.getPath().get(4).getBottomNeighbor().isVisited());
 
+                    if (c.getPath().get(0).getRightNeighbor().getID().equals(destination)) {
+                        System.out.println("You made it to your destination");
+                        direction *= -1;
+                        currentTrack = c.getPath().get(0);
 
-                        if (currentTrack.getRightNeighbor().getID().equals(destination)) {
-                            System.out.println("You made it to your destination");
-                            direction *= -1;
-                            Platform.runLater(() -> destination = new ConductorScreen(Thread.currentThread()).getDestination());
-                            String temp = destination;
-                            while (destination != null) {
+                        c.getPath().get(0).setVisited(false);
+                        c.getPath().get(0).getRightNeighbor().setVisited(false);
+                        c.getPath().clear();
+                        temp = destination;
+                        this.moving = false;
+                        while (destination != null) {
 
+                            if (temp != destination
+//                                        && searchFunction(currentTrack, direction, destination)
+                                    ) {
 
-                                if (temp != destination && searchFunction(currentTrack, direction, destination)) {
-                                    moving = true;
-                                    break;
-                                }
+                                c = new Path(currentTrack, destination, direction);
+
+                                printPath();
+
+                                moving = true;
+                                break;
                             }
-
                         }
 
+                    } else if (c.getPath().get(0).getRightNeighbor().getID().equals("track") && moving) {
 
-
-
-                        if (currentTrack.getRightNeighbor().getID().equals("track") && moving) {
-
-
-                            currentTrack = currentTrack.getRightNeighbor();
-                            moveTrain();
-                        } else {//check lights
-                            checkRightLights();
-                            //check switches
-                            checkSwitches();
-                        }
-
-
-                    } else {
-                        flag = true;
-//                        System.out.println("Train thread is dying");
+                        c.getPath().get(0).setVisited(false);
+                        c.getPath().get(0).getRightNeighbor().setVisited(false);
+                        c.getPath().remove(0);
+                        printPath();
+                        moveTrain();
+                    } else {//check lights
+                        checkRightLights();
+                        //check switches
+                        checkSwitches();
                     }
 
-                } else if (direction == -1) {
-                    if (currentTrack.getLeftNeighbor() != null) {
 
-
-                        if (currentTrack.getLeftNeighbor().getID().equals(destination)) {
-//                            System.out.println("You made it to your destination");
-                            direction *= -1;
-                            String temp = destination;
-
-                            Platform.runLater(() -> destination = new ConductorScreen(Thread.currentThread()).getDestination());
-
-
-                            while (destination != null) {
-
-
-                                if (temp != destination && searchFunction(currentTrack, direction, destination)) {
-                                    moving = true;
-                                    break;
-                                }
-                            }
-//                                    else {
-//
-//                                        moving = false;
-//                                        System.out.println("in the looppppp");
-//                                    }
-
-//                                Thread.sleep(3000);
-
-
-                        }
-
-
-//                    System.out.println(currentTrack.getRightNeighbor().getID());
-
-
-                        if (currentTrack.getLeftNeighbor().getID().equals("track") && moving) {
-
-
-                            currentTrack = currentTrack.getLeftNeighbor();
-                            moveTrain();
-                        } else {//check lights
-                            checkLeftLights();
-                            //check switches
-                            checkSwitches();
-                        }
-
-
-                    } else {
-                        flag = true;
-//                        System.out.println("Train thread is dying");
-                    }
                 }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+
+
+            } else if (direction == -1 && !c.getPath().isEmpty() && moving) {
+               valid = true;
+                if (!c.getPath().get(0).getLeftNeighbor().equals(null)) {
+
+//                        System.out.println(c.getPath().get(0).getID());
+
+                    if (c.getPath().get(0).getLeftNeighbor().getID().equals(destination)) {
+                        System.out.println("You made it to your destination");
+                        direction *= -1;
+                        String temp = destination;
+                        currentTrack = c.getPath().get(0);
+                        c.getPath().get(0).setVisited(false);
+                        c.getPath().get(0).getRightNeighbor().setVisited(false);
+
+                        System.out.println("Current Path " + currentTrack.getID());
+                        c.getPath().clear();
+//                            Platform.runLater(() -> destination = new ConductorScreen(Thread.currentThread()).getDestination());
+
+                        this.moving = false;
+                        while (true) {
+
+                            if (temp != destination
+//                                        && searchFunction(currentTrack, direction, destination)
+                                    ) {
+                                c = new Path(currentTrack, destination, direction);
+                                printPath();
+                                moving = true;
+                                break;
+                            }
+
+                        }
+
+
+                    } else if (c.getPath().get(0).getLeftNeighbor().getID().equals("track") && moving) {
+
+
+                        c.getPath().get(0).setVisited(false);
+
+                        c.getPath().remove(0);
+                        printPath();
+                        moveTrain();
+                    } else {
+                        //check switches
+                        checkLeftSwitches();
+                        //check lights
+                        checkLeftLights();
+
+                    }
+
+
+                }
             }
 
+            if (c.getPath().isEmpty()) {
+                temp = destination;
+
+                valid = false;
+                this.moving = false;
+//                direction *= -1;
+
+                while (true) {
+//
+                    if (!temp.equals(destination)) {
+
+                        c = new Path(currentTrack, destination, direction);
+
+                        printPath();
+                        moving = true;
+                        break;
+                    }
+                }
+
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
     }
 
 
-    public void setX(int x) {
+    private void setX(int x) {
         this.x = x;
     }
 
-    public void checkSwitches() {
+    private void checkSwitches() {
 
 
-        switch (currentTrack.getRightNeighbor().getID()) {
+        switch (c.getPath().get(0).getRightNeighbor().getID()) {
             //if the switch is on
             case "urs":
-                if (currentTrack.getRightNeighbor().isOccupied()) {
+//                c.getPath().get(0).getRightNeighbor().setOccupied(true);
+                if (c.getPath().get(0).getRightNeighbor().isOccupied()) {
                     //keep moving but go up
-                    setY(getY() - 25);
+                    gc.clearRect(getX(), getY(), 30, 20);
+                    setY(getY() - 75);
+                    setLight(true);
+                    c.getPath().get(0).getRightNeighbor().getTopNeighbor().setVisited(false);
                     currentTrack = currentTrack.getTopNeighbor();
+                    c.getPath().remove(0);
+                    c.getPath().remove(0);
                     moveTrain();
 
-                } else{
-                    currentTrack = currentTrack.getRightNeighbor();
+                } else {
+
+                    c.getPath().get(0).getRightNeighbor().getTopNeighbor().setVisited(false);
+
+                    c.getPath().remove(0);
                     moveTrain();
                 }
                 break;
             case "uls":
-                if (currentTrack.getRightNeighbor().isOccupied()) {
+                if (destination.equals("W")) {
+                    c.getPath().remove(0);
+                    moveTrain();
+                } else if (currentTrack.getRightNeighbor().isOccupied()) {
                     moving = false;
                 }
                 break;
@@ -215,39 +268,156 @@ System.out.print("_______");
                 }
                 break;
             case "drs":
-                if (currentTrack.getRightNeighbor().isOccupied()) {
-                    gc.clearRect(getX(), getY(),30, 20);
 
-                    currentTrack = currentTrack.getRightNeighbor().getBottomNeighbor();
+
+                if (direction == -1) {
+                    moveTrain();
+                    c.getPath().remove(0);
+                } else if (c.getPath().get(0).getRightNeighbor().isOccupied() && !c.getPath().get(0).getRightNeighbor().getBottomNeighbor().isVisited()) {
+                    gc.clearRect(getX(), getY(), 30, 20);
+
+
+                    //  currentTrack = currentTrack.getRightNeighbor().getBottomNeighbor();
+                    c.getPath().get(0).getRightNeighbor().getBottomNeighbor().setVisited(false);
+
+                    c.getPath().remove(0);
+                    c.getPath().remove(0);
                     setY(getY() + 75);
                     setX(getX() + 55);
                     moveTrain();
 
-                } else{
+                } else {
                     moveTrain();
-                    currentTrack = currentTrack.getRightNeighbor();
+//                    currentTrack = currentTrack.getRightNeighbor();
+                    c.getPath().get(0).getRightNeighbor().getBottomNeighbor().setVisited(false);
+                    c.getPath().get(0).getRightNeighbor().setVisited(false);
+
+                    System.out.println("drs " + c.getPath().get(0).getRightNeighbor().getID() + " bottom " + c.getPath().get(0).getRightNeighbor().getBottomNeighbor().isVisited());
+
+                    c.getPath().get(0).getRightNeighbor().getBottomNeighbor().getRightNeighbor().setVisited(false);
+
+                    c.getPath().get(0).getRightNeighbor().getBottomNeighbor().getRightNeighbor().setVisited(false);
+
+                    if (c.getPath().get(0).getRightNeighbor().getBottomNeighbor().getRightNeighbor().getRightNeighbor() != null && c.getPath().get(0).getRightNeighbor().getBottomNeighbor().getRightNeighbor().getBottomNeighbor() != null) {
+                        c.getPath().get(0).getRightNeighbor().getBottomNeighbor().getRightNeighbor().getRightNeighbor().setVisited(false);
+                        c.getPath().get(0).getRightNeighbor().getBottomNeighbor().getRightNeighbor().getBottomNeighbor().setVisited(false);
+                    }
+                    c.getPath().remove(0);
+
                 }
+
+
                 break;
 
 
         }
     }
 
-    public void checkRightLights() {
-        if (currentTrack.getRightNeighbor().getID().equals("light")) {
+    public boolean isMoving() {
+        return moving;
+    }
 
-            if (currentTrack.getRightNeighbor().isOccupied()) {
+    public void checkLeftSwitches() {
+
+
+        switch (c.getPath().get(0).getLeftNeighbor().getID()) {
+            //if the switch is on
+            case "urs":
+                //  setY(getY() - 75);
+                moveTrain();
+//              System.out.println( c.getPath().get(0).getLeftNeighbor().getTopNeighbor().getID() + " " + c.getPath().get(0).getLeftNeighbor().getTopNeighbor().isVisited()+ " " + c.getPath().get(0).getLeftNeighbor().getID() + " ");
+                c.getPath().get(0).getLeftNeighbor().getTopNeighbor().setVisited(false);
+
+                c.getPath().remove(0);
+
+                break;
+            case "uls":
+                if (c.getPath().get(0).getLeftNeighbor().isOccupied()) {
+                    c.getPath().get(0).setVisited(false);
+
+                    c.getPath().remove(0);
+                    c.getPath().get(0).setVisited(false);
+
+                    c.getPath().remove(0);
+
+
+                    gc.clearRect(getX(), getY(), 30, 20);
+
+                    if (!destination.equals("C")) {
+                        c.getPath().get(0).getLeftNeighbor().getTopNeighbor().setVisited(false);
+
+                        setLight(true);
+                        setY(getY() - 75);
+                        moveTrain();
+
+                    } else {
+
+
+                        moveTrain();
+                    }
+
+                }
+                break;
+            case "dls":
+                if (currentTrack.getRightNeighbor().isOccupied()) {
+                    moving = false;
+                }
+                break;
+            case "drs":
+                if (direction == -1) {
+                    moveTrain();
+                    c.getPath().get(0).setVisited(false);
+
+                    c.getPath().remove(0);
+                } else if (c.getPath().get(0).getRightNeighbor().isOccupied() && !c.getPath().get(0).getRightNeighbor().getBottomNeighbor().isVisited()) {
+                    gc.clearRect(getX(), getY(), 30, 20);
+
+                    //  currentTrack = currentTrack.getRightNeighbor().getBottomNeighbor();
+
+
+                    c.getPath().remove(0);
+
+
+                    c.getPath().remove(0);
+                    setY(getY() + 75);
+                    setX(getX() + 55);
+                    moveTrain();
+
+                } else {
+                    moveTrain();
+//                    currentTrack = currentTrack.getRightNeighbor();
+//                    c.getPath().get(0).getRightNeighbor().getBottomNeighbor().setVisited(false);
+//                    c.getPath().get(0).setVisited(false);
+
+
+                    c.getPath().remove(0);
+                }
+
+                break;
+
+
+        }
+    }
+
+
+    public void checkRightLights() {
+        if (c.getPath().get(0).getRightNeighbor().getID().equals("light")) {
+
+            if (c.getPath().get(0).getRightNeighbor().isOccupied()) {
                 //light is on red
                 moving = false;
 //                System.out.println("light is red");
 
 
-            } else if (!currentTrack.getRightNeighbor().isOccupied()) {
+            } else if (!c.getPath().get(0).getRightNeighbor().isOccupied()) {
                 //light is on green
 //                System.out.println("light is green");
                 setLight(true);
                 moveTrain();
-                currentTrack = currentTrack.getRightNeighbor().getRightNeighbor();
+                c.getPath().get(0).setVisited(false);
+                c.getPath().remove(0);
+                c.getPath().get(0).setVisited(false);
+                c.getPath().remove(0);
 
 
             }
@@ -256,20 +426,25 @@ System.out.print("_______");
     }
 
     public void checkLeftLights() {
-        if (currentTrack.getLeftNeighbor().getID().equals("light")) {
+        if (c.getPath().get(0).getLeftNeighbor().getID().equals("light")) {
 
-            if (currentTrack.getLeftNeighbor().isOccupied()) {
+            if (c.getPath().get(0).getLeftNeighbor().isOccupied()) {
                 //light is on red
                 moving = false;
 //                System.out.println("light is red");
 
 
-            } else if (!currentTrack.getLeftNeighbor().isOccupied()) {
+            } else if (!c.getPath().get(0).getLeftNeighbor().isOccupied()) {
                 //light is on green
 //                System.out.println("light is green");
                 setLight(true);
                 moveTrain();
-                currentTrack = currentTrack.getLeftNeighbor().getLeftNeighbor();
+                c.getPath().get(0).setVisited(false);
+
+                c.getPath().remove(0);
+                c.getPath().get(0).setVisited(false);
+
+                c.getPath().remove(0);
 
 
             }
@@ -286,39 +461,18 @@ System.out.print("_______");
     public boolean isLight() {
         return light;
     }
+//
 
-    private boolean searchFunction(TrackObject currentTrack, int direction, String destination) {
-//        System.out.println(currentTrack.getID());
-//        System.out.println(currentTrack.getLeftNeighbor().getID());
-//        System.out.println(direction);
-//        System.out.println(destination);
-
-        while (!currentTrack.getLeftNeighbor().getID().equals(null) && !currentTrack.getRightNeighbor().getID().equals(null)) {
-
-            if (direction == 1) {
-
-                if (!currentTrack.getRightNeighbor().getID().equals(destination) && !currentTrack.getRightNeighbor().equals(null)) {
-                    currentTrack = currentTrack.getRightNeighbor();
-                    searchFunction(currentTrack, direction, destination);
-
-                } else {
-                    return true;
-                }
-            } else if (direction == -1) {
-
-                if (!currentTrack.getLeftNeighbor().getID().equals(destination) && !currentTrack.getLeftNeighbor().equals(null)) {
-                    currentTrack = currentTrack.getLeftNeighbor();
-                    searchFunction(currentTrack, direction, destination);
-
-                } else {
-
-                    return true;
-                }
-
-            }
+    private void printPath() {
+        System.out.print("_______");
+        for (int i = 0; i < c.getPath().size(); i++) {
+            System.out.print(c.getPath().get(i).getID() + " ");
         }
-        return false;
+        System.out.println("______");
+
     }
 
-
+    public boolean isValid() {
+        return valid;
+    }
 }
