@@ -7,12 +7,18 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Arc;
 import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 
 /**
  * Created by Vincent on 10/27/2017.
  */
 public class LayoutDisplay
 {
+  Image dLTrack = new Image("DLTrack2.png");
+  Image dRTrack = new Image("DRTrack.png");
+  Image track = new Image("Track.png");
+  Image lightOff = new Image("LightOff.png");
+  Image lightOn = new Image("LightOn.png");
   private Canvas canvas;
   private GraphicsContext gc;
   private int stationNumber = 65;
@@ -28,39 +34,42 @@ public class LayoutDisplay
     gc.setFill(new Color(0,0,0, 1));
     gc.fillRect(pX*55, pY*75, 50,50);
     gc.setFill(new Color(1,1,1,1));
-    //gc.fillText(String.valueOf((char) (stationNumber)), pX*55 + 20, 75);
-    stationNumber++;
+    gc.setFont(new Font("Courier New", 25));
+    gc.fillText(String.valueOf((ID)), pX*55+15, pY*75+30);
+    //stationNumber++;
   }
   public void trackDisplay(int pX, int pY)
   {
-    gc.drawImage(new Image("Track.png"), pX*55, pY*75+40, 50, 10);
+    gc.drawImage(track, pX*55, pY*75+40, 50, 10);
     //gc.setFill(new Color(0,0,0, 1));
     //gc.fillRect(pX*55, pY*75+40, 50,10);
   }
 
   public void lightDisplay(int pX, int pY, boolean red)
   {
-    gc.setFill(new Color(0,0,0, 1));
-    gc.fillRect(pX*55, pY*75, 20, 50);
-    gc.drawImage(new Image("Track.png"), pX*55, pY*75+40, 50, 10);
+    //gc.setFill(new Color(0,0,0, 1));
+    //gc.fillRect(pX*55, pY*75, 20, 50);
     //gc.setFill(new Color(0,0,0, 1));
     //gc.fillRect(pX*55, pY*75 + 40, 50,10);
     //gc.fillRect(pX*55, pY*75, 20, 50);
   if(red){
-    gc.setFill(new Color(1, 0, 0, 1));
+    //gc.setFill(new Color(1, 0, 0, 1));
+    gc.drawImage(lightOff, pX*55-20, pY*75, 50, 50);
   }
   else if(!red){
-    gc.setFill(new Color(0, 1, 0, 1));
+    //gc.setFill(new Color(0, 1, 0, 1));
+    gc.drawImage(lightOn, pX*55-20, pY*75, 50, 50);
   }
-
-    gc.fillOval(pX*55,pY*75, 20,20);
+    gc.drawImage(track, pX*55, pY*75+40, 50, 10);
+    //gc.fillOval(pX*55,pY*75, 20,20);
   }
 
   public void drDisplay(int pX, int pY)
   {
     //gc.setFill(new Color(1, 0, 0, 1));
-    gc.drawImage(new Image("Track.png"), pX*55, pY*75+40, 50, 10);
-    gc.drawImage(new Image("DTrack.png"), pX*55+25, pY*75+50, 50, 50);
+    //gc.fillRect(pX*55, pY*75 + 40, 50,10);
+    gc.drawImage(track, pX*55, pY*75+40, 50, 10);
+    gc.drawImage(dRTrack, pX*55+20, pY*75+60, 50, 50);
     //gc.rotate(45);
     //gc.fillRect(pX*55, -(pY*35 + 175), 75,10);
     //gc.rotate(-45);
@@ -69,25 +78,25 @@ public class LayoutDisplay
   public void dlDisplay(int pX, int pY)
   {
     //gc.setFill(new Color(0, 0, 1, 1));
-    //gc.fillRect(pX*55, pY*75 + 40, 50,10);
-    gc.drawImage(new Image("Track.png"), pX*55, pY*75+40, 50, 10);
-    gc.drawImage(new Image("DLTrack.png"), pX*55-45, pY*75+50, 50, 50);
+   // gc.fillRect(pX*55, pY*75 + 40, 50,10);
+    gc.drawImage(track, pX*55, pY*75+40, 50, 10);
+    gc.drawImage(dLTrack, pX*55-45, pY*75+50, 50, 50);
   }
 
   public void urDisplay(int pX, int pY)
   {
     //gc.setFill(new Color(0, 1, 0, 1));
     //gc.fillRect(pX*55, pY*75 + 40, 50,10);
-    gc.drawImage(new Image("Track.png"), pX*55, pY*75+40, 50, 10);
-    gc.drawImage(new Image("DLTrack.png"), pX*55+25, pY*75-20, 50, 50);
+    gc.drawImage(track, pX*55, pY*75+40, 50, 10);
+    gc.drawImage(dLTrack, pX*55-45, pY*75-20, 50, 50);
   }
 
   public void ulDisplay(int pX, int pY)
   {
     gc.setFill(new Color(1, 0, 1, 1));
     gc.fillRect(pX*55, pY*75 + 40, 50,10);
-    //gc.drawImage(new Image("Track.png"), pX*55, pY*75+40, 50, 10);
-    gc.drawImage(new Image("DTrack.png"), pX*55-45, pY*75-20, 50, 50);
+    gc.drawImage(track, pX*55, pY*75+40, 50, 10);
+    gc.drawImage(dRTrack, pX*55-15, pY*75-20, 50, 50);
   }
 
   public void tracksDisplay(TrackObject[][] trackObjects)
