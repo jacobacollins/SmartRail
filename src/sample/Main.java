@@ -46,7 +46,7 @@ public class Main extends Application {
 
         StackPane canvasPane = new StackPane();
 
-        Canvas middle = new Canvas(800, 350);
+        Canvas middle = new Canvas(800, 600);
         canvasPane.getChildren().add(middle);
         canvasPane.setStyle("-fx-background-color: gainsboro");
         canvasPane.setAlignment(Pos.CENTER);
@@ -54,9 +54,11 @@ public class Main extends Application {
         BorderPane.setMargin(canvasPane, new Insets(25, 25, 25, 25));
 //      GraphicsContext gc = middle.getGraphicsContext2D();  
 
-        TrackObject[][] layout = new TrackObject[3][10];
+
 //        layout = [1][11]
-        TrackLayout tl = new TrackLayout(layout);
+        //TrackLayout tl = new TrackLayout(layout);
+        LayoutReader lR = new LayoutReader();
+      TrackObject[][] layout = lR.getLanes();
         LayoutDisplay layoutDisplay = new LayoutDisplay(middle);
 
 
@@ -88,7 +90,7 @@ public class Main extends Application {
         });
 
 
-        primaryStage.setScene(new Scene(root, 1100, 400));
+        primaryStage.setScene(new Scene(root, 1100, 650));
         primaryStage.setResizable(false);
         primaryStage.show();
 
