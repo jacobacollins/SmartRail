@@ -1,18 +1,23 @@
-package sample;
-public class Switches extends TrackObject {
-    public boolean isOn() {
-        return on;
-    }
+/**
+ * @author Jacob Collins, Vincent Crespin
+ * Switch class that will be used for every type of Switch
+ */
+public class Switches extends TrackObject
+{
 
-    private boolean blocked, on;
+    //fields, there is no static id because there will be several switches
+    private boolean blocked;
     private String TrackID;
 
-    public Switches(boolean blocked, String TrackID,boolean on) {
+    /**
+     * Generic Switch constructor for each type of switch, calls to the super class in the constructor
+     * @param blocked boolean that represents if the switch is on or off
+     * @param TrackID String that represents the type of switch e.g. urs, drs, uls, dls
+     */
+    public Switches(boolean blocked, String TrackID)
+    {
         super(TrackID, blocked);
 
-        this.TrackID = TrackID;
-        this.blocked = blocked;
-        this.on = on;
     }
 }
 

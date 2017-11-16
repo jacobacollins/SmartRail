@@ -1,50 +1,32 @@
-package sample;
-
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
+/**
+ * @author Jacob Collins, Vincent Crespin
+ * This is the Train object that will be moving across the screen
+ */
 public class Train extends TrackObject implements Runnable {
 
     private boolean moving = true;
-
     private int x = 55;
     private int y = 10;
-
     private int direction;
     private Canvas canvas;
     private GraphicsContext gc;
-    private boolean flag, valid;
+    private boolean flag;
     private boolean light = false;
     private TrackObject currentTrack;
     private String TrainID;
     private String temp;
-    private LayoutDisplay ld;
-    TrackObject[][] tO;
-
-
-    public void setDestination(String destination) {
-        this.destination = destination;
-    }
-
     private volatile String destination;
     private boolean threadRunning = true;
     private Path c;
 
-    public String getDestination() {
-        return destination;
-    }
-
-    public String getTrainID() {
-
-        return TrainID;
-    }
-
-    public Train(String TrainID, Canvas canvas, TrackObject currentTrack, String destination, int direction, LayoutDisplay lD, TrackObject[][] tO) {
+    public Train(String TrainID, Canvas canvas, TrackObject currentTrack, String destination, int direction) {
         super(TrainID, false);
-        this.tO = tO;
+
         this.canvas = canvas;
-        this.ld = new LayoutDisplay(canvas);
         this.currentTrack = currentTrack;
         gc = canvas.getGraphicsContext2D();
         this.destination = destination;
@@ -61,11 +43,6 @@ public class Train extends TrackObject implements Runnable {
     }
 
 
-    public void setLight(boolean light) {
-        this.light = light;
-    }
-
-
     private void changeCoordinates() {
         if (isLight()) {
             x += direction * 110;
@@ -78,67 +55,52 @@ public class Train extends TrackObject implements Runnable {
 
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void run() {
-        while (!flag) try {
-          gc.setFill(Color.RED);
-          gc.fillRect(getX(), getY(), 30, 20);
-
-            //System.out.print(currentTrack.getID() + " ");
-
-//System.out.println(c.getPath().get(0).getRightNeighbor().getID());
+    public void run()
+    {
+        while (!flag) try
+        {
+            gc.setFill(Color.RED);
+            gc.fillRect(getX(), getY(), 30, 20);
             Thread.sleep(500);
 
-            if (direction == 1 && !c.getPath().isEmpty() && moving) {
-               valid = true;
-                if (c.getPath().get(0) != null) {
+            if (direction == 1 && !c.getPath().isEmpty() && moving)
+            {
 
-//                      System.out.println(c.getPath().get(4).getBottomNeighbor().isVisited());
+                if (c.getPath().get(0) != null)
+                {
 
-                    if (c.getPath().get(0).getRightNeighbor().getID().equals(destination)) {
-                        System.out.println("You made it to your destination");
+                    //if we make it to our destination
+                    if (c.getPath().get(0).getRightNeighbor().getID().equals(destination))
+                    {
                         direction *= -1;
                         currentTrack = c.getPath().get(0);
-
-                        c.getPath().get(0).setVisited(false);
-                        c.getPath().get(0).getRightNeighbor().setVisited(false);
                         c.getPath().clear();
                         temp = destination;
                         this.moving = false;
-                        while (destination != null) {
 
-                            if (temp != destination
-//                                        && searchFunction(currentTrack, direction, destination)
-                                    ) {
-
+                        //When we make it to a destination wer are checking for a change in where the train is going
+                        while (true)
+                        {
+                            if (!temp.equals(destination))
+                            {
                                 c = new Path(currentTrack, destination, direction);
-
-                                printPath();
-
+//                                printPath();
                                 moving = true;
                                 break;
                             }
                         }
 
-                    } else if (c.getPath().get(0).getRightNeighbor().getID().equals("track") && moving) {
-
-                        c.getPath().get(0).setVisited(false);
-                        c.getPath().get(0).getRightNeighbor().setVisited(false);
+                    }
+                    //moves from track
+                    else if (c.getPath().get(0).getRightNeighbor().getID().equals("track") && moving)
+                    {
                         c.getPath().remove(0);
-                        printPath();
+                        printPath();s
                         moveTrain();
-                    } else {//check lights
+                    }
+                    else
+                    {
+                        //check lights
                         checkRightLights();
                         //check switches
                         checkSwitches();
@@ -148,30 +110,26 @@ public class Train extends TrackObject implements Runnable {
                 }
 
 
-            } else if (direction == -1 && !c.getPath().isEmpty() && moving) {
-               valid = true;
-                if (!c.getPath().get(0).getLeftNeighbor().equals(null)) {
+            }
+            else if (direction == -1 && !c.getPath().isEmpty() && moving)
+            {
 
-//                        System.out.println(c.getPath().get(0).getID());
-
-                    if (c.getPath().get(0).getLeftNeighbor().getID().equals(destination)) {
-                        System.out.println("You made it to your destination");
+                if (!c.getPath().get(0).getLeftNeighbor().equals(null))
+                {
+                    if (c.getPath().get(0).getLeftNeighbor().getID().equals(destination))
+                    {
                         direction *= -1;
                         String temp = destination;
                         currentTrack = c.getPath().get(0);
-                        c.getPath().get(0).setVisited(false);
-                        c.getPath().get(0).getRightNeighbor().setVisited(false);
-
-                        System.out.println("Current Path " + currentTrack.getID());
+//                        c.getPath().get(0).setVisited(false);
+//                        c.getPath().get(0).getLeftNeighbor().setVisited(false);
                         c.getPath().clear();
-//                            Platform.runLater(() -> destination = new ConductorScreen(Thread.currentThread()).getDestination());
 
                         this.moving = false;
-                        while (true) {
-
-                            if (temp != destination
-//                                        && searchFunction(currentTrack, direction, destination)
-                                    ) {
+                        while (true)
+                        {
+                            if (!temp.equals(destination))
+                            {
                                 c = new Path(currentTrack, destination, direction);
                                 printPath();
                                 moving = true;
@@ -181,15 +139,17 @@ public class Train extends TrackObject implements Runnable {
                         }
 
 
-                    } else if (c.getPath().get(0).getLeftNeighbor().getID().equals("track") && moving) {
-
+                    }
+                    else if (c.getPath().get(0).getLeftNeighbor().getID().equals("track") && moving)
+                    {
 
                         c.getPath().get(0).setVisited(false);
-
                         c.getPath().remove(0);
                         printPath();
                         moveTrain();
-                    } else {
+                    }
+                    else
+                    {
                         //check switches
                         checkLeftSwitches();
                         //check lights
@@ -197,23 +157,19 @@ public class Train extends TrackObject implements Runnable {
 
                     }
 
-
                 }
             }
 
-            if (c.getPath().isEmpty()) {
+            //This is the case where there was an invalid destination entered
+            if (c.getPath().isEmpty())
+            {
                 temp = destination;
-
-                valid = false;
                 this.moving = false;
-//                direction *= -1;
-
-                while (true) {
-//
-                    if (!temp.equals(destination)) {
-
+                while (true)
+                {
+                    if (!temp.equals(destination))
+                    {
                         c = new Path(currentTrack, destination, direction);
-
                         printPath();
                         moving = true;
                         break;
@@ -245,8 +201,8 @@ public class Train extends TrackObject implements Runnable {
                     setY(getY() - 75);
                     setLight(true);
                     c.getPath().get(0).getRightNeighbor().getTopNeighbor().setVisited(false);
-                    currentTrack = currentTrack.getTopNeighbor();
                     c.getPath().remove(0);
+                    c.getPath().get(0).setVisited(false);
                     c.getPath().remove(0);
                     moveTrain();
 
@@ -329,7 +285,7 @@ public class Train extends TrackObject implements Runnable {
             case "urs":
                 //  setY(getY() - 75);
                 moveTrain();
-//              System.out.println( c.getPath().get(0).getLeftNeighbor().getTopNeighbor().getID() + " " + c.getPath().get(0).getLeftNeighbor().getTopNeighbor().isVisited()+ " " + c.getPath().get(0).getLeftNeighbor().getID() + " ");
+
                 c.getPath().get(0).getLeftNeighbor().getTopNeighbor().setVisited(false);
 
                 c.getPath().remove(0);
@@ -383,7 +339,6 @@ public class Train extends TrackObject implements Runnable {
 
 
                     c.getPath().remove(0);
-
                     setY(getY() + 75);
                     setX(getX() + 55);
                     moveTrain();
@@ -457,12 +412,10 @@ public class Train extends TrackObject implements Runnable {
         }
     }
 
-    public void moveTrain()
-    {
-      gc.clearRect(getX(), getY(), 30, 20);
-      changeCoordinates();
-      gc.fillRect(getX(), getY(), 30, 20);
-      ld.tracksDisplay(tO);
+    public void moveTrain() {
+        gc.clearRect(getX(), getY(), 30, 20);
+        changeCoordinates();
+        gc.fillRect(getX(), getY(), 30, 20);
     }
 
     public boolean isLight() {
@@ -479,7 +432,34 @@ public class Train extends TrackObject implements Runnable {
 
     }
 
-    public boolean isValid() {
-        return valid;
+    public void setDestination(String destination) {
+        this.destination = destination;
     }
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public String getTrainID() {
+
+        return TrainID;
+    }
+
+    private void setLight(boolean light) {
+        this.light = light;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+
 }
