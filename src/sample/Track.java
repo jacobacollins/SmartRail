@@ -1,3 +1,4 @@
+package sample;
 /**
  * @author Jacob Collins, Vincent Crespin
  * Track class that will be used for every generic track

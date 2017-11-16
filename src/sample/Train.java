@@ -1,3 +1,4 @@
+package sample;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -22,11 +23,14 @@ public class Train extends TrackObject implements Runnable {
     private volatile String destination;
     private boolean threadRunning = true;
     private Path c;
+    LayoutDisplay lD;
+    TrackObject[][] tO;
 
-    public Train(String TrainID, Canvas canvas, TrackObject currentTrack, String destination, int direction) {
+    public Train(String TrainID, Canvas canvas, TrackObject currentTrack, String destination, int direction, TrackObject[][] tO ) {
         super(TrainID, false);
-
+        this.tO = tO;
         this.canvas = canvas;
+        this.lD = new LayoutDisplay(canvas);
         this.currentTrack = currentTrack;
         gc = canvas.getGraphicsContext2D();
         this.destination = destination;
@@ -95,7 +99,7 @@ public class Train extends TrackObject implements Runnable {
                     else if (c.getPath().get(0).getRightNeighbor().getID().equals("track") && moving)
                     {
                         c.getPath().remove(0);
-                        printPath();s
+                        printPath();
                         moveTrain();
                     }
                     else
@@ -416,6 +420,7 @@ public class Train extends TrackObject implements Runnable {
         gc.clearRect(getX(), getY(), 30, 20);
         changeCoordinates();
         gc.fillRect(getX(), getY(), 30, 20);
+        lD.tracksDisplay(tO);
     }
 
     public boolean isLight() {

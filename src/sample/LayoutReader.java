@@ -61,22 +61,22 @@ public class LayoutReader
           }
           else if(input[j].equals("drs"))
           {
-            lanes[i][j] = new Switches(true, "drs", false);
+            lanes[i][j] = new Switches(true, "drs");
             j++;
           }
           else if(input[j].equals("dls"))
           {
-            lanes[i][j] = new Switches(true, "dls", false);
+            lanes[i][j] = new Switches(true, "dls");
             j++;
           }
           else if(input[j].equals("urs"))
           {
-            lanes[i][j] = new Switches(true, "urs", false);
+            lanes[i][j] = new Switches(true, "urs");
             j++;
           }
           else if(input[j].equals("uls"))
           {
-            lanes[i][j] = new Switches(true, "uls", false);
+            lanes[i][j] = new Switches(true, "uls");
             j++;
           }
           else

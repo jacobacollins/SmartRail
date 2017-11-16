@@ -1,3 +1,4 @@
+package sample;
 /**
  * @author Jacob Collins, Vincent Crespin
  * The TrackLayout class build the back end structure of TrackObject that becomes our Track System.

@@ -1,3 +1,4 @@
+package sample;
 /**
  * @author Jacob Collins, Vincent Crespin
  * Station class that will be used for every end of the paths.

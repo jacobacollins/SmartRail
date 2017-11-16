@@ -1,3 +1,4 @@
+package sample;
 /**
  * @author Jacob Collins, Vincent Crespin
  * This class builds the Path that the train will follow along its route

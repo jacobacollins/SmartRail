@@ -1,3 +1,4 @@
+package sample;
 /**
  * @author Jacob Collins, Vincent Crespin
  * Switch class that will be used for every type of Switch

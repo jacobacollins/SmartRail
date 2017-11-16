@@ -1,4 +1,4 @@
-
+package sample;
 /**
  * @author Jacob Collins, Vincent Crespin
  * This TrackObject is what all of the components are derived from.
