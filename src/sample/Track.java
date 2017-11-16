@@ -1,27 +1,26 @@
-package sample;
-import java.util.ArrayList;
+/**
+ * @author Jacob Collins, Vincent Crespin
+ * Track class that will be used for every generic track
+ */
 
-public class Track extends TrackObject {
+public class Track extends TrackObject
+{
 
+    //boolean variable to see if the track is blocked
     private boolean blocked;
+    //final track id
     private static final String TrackID = "track";
-    private TrackObject leftNeighbor, rightNeighbor;
 
-public Track(boolean blocked){
+    /**
+     * Track Constructor that calls the super class
+     * @param blocked boolean value for track.
+     */
+    public Track(boolean blocked)
+    {
 
-    super(TrackID, blocked);
-    this.blocked = blocked;
+    //call to the super class
+        super(TrackID, blocked);
 
-
-
-}
-
-
-
-
-
-
-
-
+    }
 
 }
