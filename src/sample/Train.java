@@ -19,6 +19,8 @@ public class Train extends TrackObject implements Runnable {
     private TrackObject currentTrack;
     private String TrainID;
     private String temp;
+    private LayoutDisplay ld;
+    TrackObject[][] tO;
 
 
     public void setDestination(String destination) {
@@ -38,10 +40,11 @@ public class Train extends TrackObject implements Runnable {
         return TrainID;
     }
 
-    public Train(String TrainID, Canvas canvas, TrackObject currentTrack, String destination, int direction) {
+    public Train(String TrainID, Canvas canvas, TrackObject currentTrack, String destination, int direction, LayoutDisplay lD, TrackObject[][] tO) {
         super(TrainID, false);
-
+        this.tO = tO;
         this.canvas = canvas;
+        this.ld = new LayoutDisplay(canvas);
         this.currentTrack = currentTrack;
         gc = canvas.getGraphicsContext2D();
         this.destination = destination;
@@ -89,8 +92,9 @@ public class Train extends TrackObject implements Runnable {
 
     public void run() {
         while (!flag) try {
-            gc.setFill(Color.RED);
-            gc.fillRect(getX(), getY(), 30, 20);
+          gc.setFill(Color.RED);
+          gc.fillRect(getX(), getY(), 30, 20);
+
             //System.out.print(currentTrack.getID() + " ");
 
 //System.out.println(c.getPath().get(0).getRightNeighbor().getID());
@@ -379,6 +383,7 @@ public class Train extends TrackObject implements Runnable {
 
 
                     c.getPath().remove(0);
+
                     setY(getY() + 75);
                     setX(getX() + 55);
                     moveTrain();
@@ -452,10 +457,12 @@ public class Train extends TrackObject implements Runnable {
         }
     }
 
-    public void moveTrain() {
-        gc.clearRect(getX(), getY(), 30, 20);
-        changeCoordinates();
-        gc.fillRect(getX(), getY(), 30, 20);
+    public void moveTrain()
+    {
+      gc.clearRect(getX(), getY(), 30, 20);
+      changeCoordinates();
+      gc.fillRect(getX(), getY(), 30, 20);
+      ld.tracksDisplay(tO);
     }
 
     public boolean isLight() {

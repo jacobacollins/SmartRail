@@ -14,15 +14,14 @@ import javafx.scene.text.Font;
  */
 public class LayoutDisplay
 {
-  Image dLTrack = new Image("DLTrack2.png");
-  Image dRTrack = new Image("DRTrack.png");
-  Image track = new Image("Track.png");
-  Image lightOff = new Image("LightOff.png");
-  Image lightOn = new Image("LightOn.png");
+  private Image dLTrack = new Image("DLTrack2.png");
+  private Image dRTrack = new Image("DRTrack.png");
+  private Image track = new Image("Track.png");
+  private Image lightOff = new Image("LightOff.png");
+  private Image lightOn = new Image("LightOn.png");
   private Canvas canvas;
   private GraphicsContext gc;
-  private int stationNumber = 65;
-  Rectangle rectangle = new Rectangle();
+  TrackObject[][] trackObjects;
   public LayoutDisplay(Canvas canvas)
   {
     this.canvas = canvas;
@@ -36,7 +35,6 @@ public class LayoutDisplay
     gc.setFill(new Color(1,1,1,1));
     gc.setFont(new Font("Courier New", 25));
     gc.fillText(String.valueOf((ID)), pX*55+15, pY*75+30);
-    //stationNumber++;
   }
   public void trackDisplay(int pX, int pY)
   {
@@ -66,8 +64,8 @@ public class LayoutDisplay
 
   public void drDisplay(int pX, int pY)
   {
-    //gc.setFill(new Color(1, 0, 0, 1));
-    //gc.fillRect(pX*55, pY*75 + 40, 50,10);
+    gc.setFill(new Color(1, 0, 0, 1));
+    gc.fillRect(pX*55, pY*75 + 40, 50,10);
     gc.drawImage(track, pX*55, pY*75+40, 50, 10);
     gc.drawImage(dRTrack, pX*55+20, pY*75+60, 50, 50);
     //gc.rotate(45);
@@ -77,18 +75,18 @@ public class LayoutDisplay
 
   public void dlDisplay(int pX, int pY)
   {
-    //gc.setFill(new Color(0, 0, 1, 1));
-   // gc.fillRect(pX*55, pY*75 + 40, 50,10);
+    gc.setFill(new Color(0, 0, 1, 1));
+    gc.fillRect(pX*55, pY*75 + 40, 50,10);
     gc.drawImage(track, pX*55, pY*75+40, 50, 10);
     gc.drawImage(dLTrack, pX*55-45, pY*75+50, 50, 50);
   }
 
   public void urDisplay(int pX, int pY)
   {
-    //gc.setFill(new Color(0, 1, 0, 1));
-    //gc.fillRect(pX*55, pY*75 + 40, 50,10);
+    gc.setFill(new Color(0, 1, 0, 1));
+    gc.fillRect(pX*55, pY*75 + 40, 50,10);
     gc.drawImage(track, pX*55, pY*75+40, 50, 10);
-    gc.drawImage(dLTrack, pX*55-45, pY*75-20, 50, 50);
+    gc.drawImage(dLTrack, pX*55+20, pY*75-20, 50, 50);
   }
 
   public void ulDisplay(int pX, int pY)

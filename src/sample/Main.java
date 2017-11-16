@@ -65,7 +65,7 @@ public class Main extends Application {
         layoutDisplay.tracksDisplay(layout);
 //  ConductorScreen inpute = new ConductorScreen(Thread.currentThread());
 
-        Train t2 = new Train("Train 1", middle, layout[0][1], "U", 1);
+        Train t2 = new Train("Train 1", middle, layout[0][1], "U", 1, layoutDisplay, layout);
 
 
         Thread t1 = new Thread(t2);

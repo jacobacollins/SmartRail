@@ -4,9 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-/**
- * Created by Vincent on 11/15/2017.
- */
 public class LayoutReader
 {
 
@@ -46,7 +43,7 @@ public class LayoutReader
       r = Integer.parseInt(line);
       line = in.readLine();
       c = Integer.parseInt(line);
-      lanes = new TrackObject[r][];
+      lanes = new TrackObject[r][c];
       while((line = in.readLine()) != null)
       {
         String[] input = line.split(" ");
