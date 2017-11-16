@@ -1,6 +1,10 @@
 package sample;
+import com.sun.deploy.config.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 
 /**
@@ -24,12 +28,19 @@ public class Train extends TrackObject implements Runnable {
     private boolean threadRunning = true;
     private Path c;
     LayoutDisplay lD;
+    Timer time;
     TrackObject[][] tO;
+    Button lightBttn;
 
-    public Train(String TrainID, Canvas canvas, TrackObject currentTrack, String destination, int direction, TrackObject[][] tO ) {
+    public Train(String TrainID, Canvas canvas, TrackObject currentTrack,
+                 String destination, int direction, TrackObject[][] tO,
+                 Button lightBttn) {
         super(TrainID, false);
+        this.lightBttn = lightBttn;
         this.tO = tO;
+        this.time = new Timer(tO);
         this.canvas = canvas;
+        this.time = time;
         this.lD = new LayoutDisplay(canvas);
         this.currentTrack = currentTrack;
         gc = canvas.getGraphicsContext2D();
@@ -65,6 +76,23 @@ public class Train extends TrackObject implements Runnable {
         {
             gc.setFill(Color.RED);
             gc.fillRect(getX(), getY(), 30, 20);
+          lightBttn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+              moving = time.changeLight(tO);
+
+            }
+          });
+            javafx.application.Platform.runLater(new Runnable() {
+              @Override
+              public void run() {
+                lD.tracksDisplay(tO);
+                gc.setFill(Color.BLACK);
+                gc.fillRect(getX(), getY()+30, 50, 10);
+              }
+            });
+
+
             Thread.sleep(500);
 
             if (direction == 1 && !c.getPath().isEmpty() && moving)
@@ -418,9 +446,13 @@ public class Train extends TrackObject implements Runnable {
 
     public void moveTrain() {
         gc.clearRect(getX(), getY(), 30, 20);
+        gc.clearRect(getX(), getY()+30, 50, 10);
         changeCoordinates();
-        gc.fillRect(getX(), getY(), 30, 20);
-        lD.tracksDisplay(tO);
+        //gc.setFill(Color.RED);
+        //gc.fillRect(getX(), getY(), 30, 20);
+        //gc.setFill(Color.BLACK);
+        //gc.fillRect(getX(), getY()+30, 50, 10);
+
     }
 
     public boolean isLight() {
@@ -466,5 +498,7 @@ public class Train extends TrackObject implements Runnable {
         return y;
     }
 
-
+    public void setMoving(boolean moving) {
+    this.moving = moving;
+  }
 }

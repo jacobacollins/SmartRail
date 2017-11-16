@@ -6,6 +6,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -38,8 +39,9 @@ public class Main extends Application {
         Label activeLights = new Label("Current destination is ");
         activeLights.setFont(new Font(17));
         TextField activeSwitches = new TextField("destination");
+        Button lightBttn = new Button("Light On/Off");
         activeSwitches.setFont(new Font(17));
-        leftPane.getChildren().addAll(trainNumber, activeLights, activeSwitches);
+        leftPane.getChildren().addAll(trainNumber, activeLights, activeSwitches, lightBttn);
 
         root.setLeft(leftPane);
 
@@ -60,16 +62,13 @@ public class Main extends Application {
         LayoutReader lR = new LayoutReader();
       TrackObject[][] layout = lR.getLanes();
         LayoutDisplay layoutDisplay = new LayoutDisplay(middle);
-
-
         layoutDisplay.tracksDisplay(layout);
 //  ConductorScreen inpute = new ConductorScreen(Thread.currentThread());
 
-        Train t2 = new Train("Train 1", middle, layout[0][1], "U", 1, layout);
+        Train t2 = new Train("Train 1", middle, layout[0][1], "U", 1, layout, lightBttn);
 
 
         Thread t1 = new Thread(t2);
-
 
         activeSwitches.setOnAction(new EventHandler<ActionEvent>() {
             @Override
