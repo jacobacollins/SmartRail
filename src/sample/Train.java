@@ -57,7 +57,9 @@ public class Train extends TrackObject implements Runnable {
 
     }
 
-
+    /**
+     * changes coordinates for the train
+     */
     private void changeCoordinates() {
         if (isLight()) {
             x += direction * 110;
@@ -74,27 +76,27 @@ public class Train extends TrackObject implements Runnable {
     {
         while (!flag) try
         {
-            gc.setFill(Color.RED);
-            gc.fillRect(getX(), getY(), 30, 20);
+          javafx.application.Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+              lD.tracksDisplay(tO);
+              gc.setFill(Color.RED);
+              gc.fillRect(getX(), getY(), 30, 20);
+              gc.setFill(Color.BLACK);
+              gc.fillRect(getX(), getY()+30, 50, 10);
+            }
+          });
           lightBttn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
               moving = time.changeLight(tO);
-
             }
           });
-            javafx.application.Platform.runLater(new Runnable() {
-              @Override
-              public void run() {
-                lD.tracksDisplay(tO);
-                gc.setFill(Color.BLACK);
-                gc.fillRect(getX(), getY()+30, 50, 10);
-              }
-            });
 
 
             Thread.sleep(500);
 
+            //if the direction is moving to the right, the path isn't empty, and the train is moving
             if (direction == 1 && !c.getPath().isEmpty() && moving)
             {
 
@@ -110,13 +112,13 @@ public class Train extends TrackObject implements Runnable {
                         temp = destination;
                         this.moving = false;
 
-                        //When we make it to a destination wer are checking for a change in where the train is going
+                        //When we make it to a destination we are checking for a change in where the train is going
                         while (true)
                         {
                             if (!temp.equals(destination))
                             {
+
                                 c = new Path(currentTrack, destination, direction);
-//                                printPath();
                                 moving = true;
                                 break;
                             }
@@ -143,6 +145,7 @@ public class Train extends TrackObject implements Runnable {
 
 
             }
+            //if we are moving left the path isn't empty and the train is moving
             else if (direction == -1 && !c.getPath().isEmpty() && moving)
             {
 
@@ -153,8 +156,6 @@ public class Train extends TrackObject implements Runnable {
                         direction *= -1;
                         String temp = destination;
                         currentTrack = c.getPath().get(0);
-//                        c.getPath().get(0).setVisited(false);
-//                        c.getPath().get(0).getLeftNeighbor().setVisited(false);
                         c.getPath().clear();
 
                         this.moving = false;
@@ -172,6 +173,7 @@ public class Train extends TrackObject implements Runnable {
 
 
                     }
+
                     else if (c.getPath().get(0).getLeftNeighbor().getID().equals("track") && moving)
                     {
 
@@ -215,18 +217,23 @@ public class Train extends TrackObject implements Runnable {
 
     }
 
-
+    /**
+     * setter for x
+     * @param x int
+     */
     private void setX(int x) {
         this.x = x;
     }
 
+    /**
+     * checks the right switches
+     */
     private void checkSwitches() {
 
 
         switch (c.getPath().get(0).getRightNeighbor().getID()) {
             //if the switch is on
             case "urs":
-//                c.getPath().get(0).getRightNeighbor().setOccupied(true);
                 if (c.getPath().get(0).getRightNeighbor().isOccupied()) {
                     //keep moving but go up
                     gc.clearRect(getX(), getY(), 30, 20);
@@ -269,7 +276,6 @@ public class Train extends TrackObject implements Runnable {
                     gc.clearRect(getX(), getY(), 30, 20);
 
 
-                    //  currentTrack = currentTrack.getRightNeighbor().getBottomNeighbor();
                     c.getPath().get(0).getRightNeighbor().getBottomNeighbor().setVisited(false);
 
                     c.getPath().remove(0);
@@ -305,10 +311,17 @@ public class Train extends TrackObject implements Runnable {
         }
     }
 
+    /**
+     * getter for moving boolean
+     * @return moving boolean
+     */
     public boolean isMoving() {
         return moving;
     }
 
+    /**
+     * checks the left switches
+     */
     public void checkLeftSwitches() {
 
 
@@ -391,7 +404,9 @@ public class Train extends TrackObject implements Runnable {
         }
     }
 
-
+    /**
+     * checks the right lights
+     */
     public void checkRightLights() {
         if (c.getPath().get(0).getRightNeighbor().getID().equals("light")) {
 
@@ -417,6 +432,9 @@ public class Train extends TrackObject implements Runnable {
         }
     }
 
+    /**
+     * checks the left lights
+     */
     public void checkLeftLights() {
         if (c.getPath().get(0).getLeftNeighbor().getID().equals("light")) {
 
@@ -444,22 +462,27 @@ public class Train extends TrackObject implements Runnable {
         }
     }
 
+    /**
+     * moves train by drawing
+     */
     public void moveTrain() {
         gc.clearRect(getX(), getY(), 30, 20);
         gc.clearRect(getX(), getY()+30, 50, 10);
         changeCoordinates();
-        //gc.setFill(Color.RED);
-        //gc.fillRect(getX(), getY(), 30, 20);
-        //gc.setFill(Color.BLACK);
-        //gc.fillRect(getX(), getY()+30, 50, 10);
-
     }
 
+    /**
+     * getter for light boolean
+     * @return light boolean
+     */
     public boolean isLight() {
         return light;
     }
 //
 
+    /**
+     * utility function to print out the path
+     */
     private void printPath() {
         System.out.print("_______");
         for (int i = 0; i < c.getPath().size(); i++) {

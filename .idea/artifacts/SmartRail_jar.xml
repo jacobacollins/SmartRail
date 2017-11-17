@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="SmartRail:jar">
+    <output-path>$PROJECT_DIR$/../out/artifacts/SmartRail_jar</output-path>
+    <root id="archive" name="SmartRail.jar">
+      <element id="module-output" name="SmartRail" />
+      <element id="dir-copy" path="$PROJECT_DIR$/src" />
+    </root>
+  </artifact>
+</component>

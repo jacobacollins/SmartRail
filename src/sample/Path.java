@@ -66,10 +66,7 @@ public class Path {
                 switch (currentTrack.getRightNeighbor().getID())
                 {
                     case "urs":
-//                        if (counter > 1) {
-//                            currentTrack.getRightNeighbor().setOccupied(true);
-//                            --counter;
-//                        }
+
                         if (!currentTrack.getRightNeighbor().getTopNeighbor().isVisited())
                         {
                             addToPath(currentTrack);

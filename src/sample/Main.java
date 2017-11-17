@@ -39,7 +39,7 @@ public class Main extends Application {
         Label activeLights = new Label("Current destination is ");
         activeLights.setFont(new Font(17));
         TextField activeSwitches = new TextField("destination");
-        Button lightBttn = new Button("Light On/Off");
+        Button lightBttn = new Button("Block Path");
         activeSwitches.setFont(new Font(17));
         leftPane.getChildren().addAll(trainNumber, activeLights, activeSwitches, lightBttn);
 
@@ -54,16 +54,11 @@ public class Main extends Application {
         canvasPane.setAlignment(Pos.CENTER);
         root.setCenter(canvasPane);
         BorderPane.setMargin(canvasPane, new Insets(25, 25, 25, 25));
-//      GraphicsContext gc = middle.getGraphicsContext2D();  
 
-
-//        layout = [1][11]
-        //TrackLayout tl = new TrackLayout(layout);
         LayoutReader lR = new LayoutReader();
       TrackObject[][] layout = lR.getLanes();
         LayoutDisplay layoutDisplay = new LayoutDisplay(middle);
         layoutDisplay.tracksDisplay(layout);
-//  ConductorScreen inpute = new ConductorScreen(Thread.currentThread());
 
         Train t2 = new Train("Train 1", middle, layout[0][1], "U", 1, layout, lightBttn);
 

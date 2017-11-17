@@ -5,29 +5,29 @@ import javafx.animation.Timeline;
 import javafx.util.Duration;
 
 /**
- * Created by Vincent on 11/16/2017.
+ * @author Jacob Collins, Vincent Crespin
+ * chages the light color
  */
 public class Timer
 {
-  Timeline timeline;
   TrackObject[][] trackObjects;
   boolean moving;
 
+  /**
+   * constructor
+   * @param trackObjects 2d array of track objects
+   */
   public Timer(TrackObject[][] trackObjects)
   {
     this.trackObjects = trackObjects;
     moving = true;
   }
-  public boolean lightTimer(TrackObject[][] trackObjects)
-  {
-    timeline = new Timeline(new KeyFrame(
-            Duration.seconds(10),
-            ae -> changeLight(trackObjects)));
-    timeline.play();
 
-    return moving;
-  }
-
+  /**
+   * changes the light from read to green and green to red
+   * @param trackObjects 2d array of track objects.
+   * @return if the light is red or green by boolean value
+   */
   public boolean changeLight(TrackObject[][] trackObjects)
   {
     for(int i = 0; i < trackObjects.length; i++)

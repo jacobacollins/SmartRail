@@ -1,33 +1,38 @@
 package sample;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+/**
+ * @author Jacob Collins, Vincent Crespin
+ * reads in txt file to configuer track layout
+ */
 public class LayoutReader
 {
-
-  public TrackObject[][] getLanes() {
+  private TrackObject[][] lanes;
+  /**
+   * get the lanes
+   * @return 2d array of track objects
+   */
+  public TrackObject[][] getLanes()
+  {
     return lanes;
   }
 
-  private TrackObject[][] lanes;
+  /**
+   * constructor that calls a few methods
+   * @throws IOException for reading in file
+   */
   public LayoutReader() throws IOException
   {
     readingInLayout();
-    printLayout();
     setNeighbors();
   }
 
-  private void printLayout() {
-    for (TrackObject[] t : lanes) {
-      for (TrackObject r : t) {
-        System.out.print(" " + r.getID() + " ");
-
-      }
-      System.out.println();
-    }
-  }
+  /**
+   * reads in txt file to make 2d arry of track objects
+   * @throws IOException for reading in file
+   */
   public void readingInLayout() throws IOException
   {
     BufferedReader in = null;
@@ -97,6 +102,9 @@ public class LayoutReader
     }
   }
 
+  /**
+   * sets the each tracks neighbors
+   */
   private void setNeighbors() {
     for (int i = 0; i < lanes.length; i++) {
       for (int j = 0; j < lanes[i].length; j++) {
