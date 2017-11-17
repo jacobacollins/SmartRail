@@ -23,4 +23,6 @@
  and lack of time to change our current design this is not possible. Also more testing on the DFS might be required as of the moment,
  but a large model would reveal that.
  
+ # Program Relationships
  
+ The class diagram of the program can be found in the .png file within the directory. A good portion of this project was dependent on track object and most calls were made back to this. For the sake of better encapsulation on future versions less involvement would be ideal from the super class.
